@@ -1,26 +1,26 @@
 package com.project.aiyue.utils;
 
-import com.itkim.mapper.BookMapper;
-import com.itkim.mapper.CommentMapper;
-import com.itkim.pojo.Book;
-import com.itkim.pojo.Comment;
-import com.itkim.tools.DBTools;
-import com.itkim.tools.HttpClient;
-import com.vdurmont.emoji.EmojiParser;
-import org.apache.ibatis.session.SqlSession;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-import org.jdom2.JDOMException;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
+//import com.itkim.mapper.BookMapper;
+//import com.itkim.mapper.CommentMapper;
+//import com.itkim.pojo.Book;
+//import com.itkim.pojo.Comment;
+//import com.itkim.tools.DBTools;
+//import com.itkim.tools.HttpClient;
+//import com.vdurmont.emoji.EmojiParser;
+//import org.apache.ibatis.session.SqlSession;
+//import org.dom4j.DocumentException;
+//import org.dom4j.Element;
+//import org.dom4j.io.SAXReader;
+//import org.jdom2.JDOMException;
+//import org.jsoup.Jsoup;
+//import org.jsoup.nodes.Document;
+//import org.jsoup.select.Elements;
+//
+//import java.io.ByteArrayInputStream;
+//import java.io.IOException;
+//import java.util.Arrays;
+//import java.util.List;
+//import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * @description: 写了三个方法去爬豆瓣的图书信息
@@ -31,19 +31,19 @@ import java.util.concurrent.ArrayBlockingQueue;
  * @date: 3/10/19 00:56
  */
 public class MainDang {
-
+/*
     private static SqlSession session = DBTools.getSession();
     private static BookMapper mapper = session.getMapper(BookMapper.class);
     private static CommentMapper mapper2 = session.getMapper(CommentMapper.class);
     //创建任务队列，可以根据你JVM堆内存大小，修改这里的容量。
     private static ArrayBlockingQueue<String> bq = new ArrayBlockingQueue(5000);
 
-    /**
+    *//**
      * 根据标签页去爬取书的id和名字
      *
      * @param url https://book.douban.com/tag/%E5%8E%86%E5%8F%B2?start=20&type=T
      * @throws IOException
-     */
+     *//*
     public static void sclawByIndex(String url) throws IOException {
         Document document = Jsoup.parse(HttpClient.get(url));
         Elements elements = document.select("#subject_list > ul > li");
@@ -57,12 +57,12 @@ public class MainDang {
         }
     }
 
-    /**
+    *//**
      * 通过详细页去爬去现价、目录、评论。
      *
      * @param url https://book.douban.com/subject/26953606/
      * @throws IOException
-     */
+     *//*
     public static void sclawByDetail(String url) throws IOException {
         System.out.println("url="+url);
         url = "http://product.dangdang.com/11524859143.html";
@@ -180,11 +180,11 @@ public class MainDang {
     }
 
 
-    /**
+    *//**
      * 根据url去api中爬数据，解析其中xml文档
      *
      * @param url http://api.douban.com/book/subject/4123377
-     */
+     *//*
     public static void sclawByAPI(String url) throws IOException, JDOMException, DocumentException {
         String xml = HttpClient.get(url).replace("This XML file does not appear to have any style information associated with it. The document tree is shown below.", "");
         SAXReader saxReader = new SAXReader();
@@ -303,8 +303,8 @@ public class MainDang {
 //            System.out.println(i);
 //            Thread.sleep(1000);
 //        }
-           
-        
+
+
 //        2、通过豆瓣的官方API爬取图书更多的信息，官方的api现在用不了，可以使用这个 https://douban-api-docs.zce.me/
 //        List<Book> list = mapper.selectByExample(null);
 //        LinkedList<String> list1 = new LinkedList();
@@ -317,8 +317,8 @@ public class MainDang {
 //            System.out.println("当前--->" + (i+1));
 //        }
 
-        
-        
+
+
         //3、通过图书的id去爬取豆瓣图书现价、目录、评论。
 //        List<Book> list = mapper.selectByExample(null);
         Book book = new Book();
@@ -347,5 +347,5 @@ public class MainDang {
 //            });
 //        }
 //        fixedThreadPool.shutdown();
-    }
+    }*/
 }

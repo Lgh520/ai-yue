@@ -30,13 +30,13 @@ public class AiyueApplication {
         return new RestTemplateBuilder().build();
     }
 
-    @Bean
-    public Config getWxConfig() {
-        return new RSAAutoCertificateConfig.Builder()
-                .merchantId("")
-                .privateKeyFromPath("")
-                .merchantSerialNumber("")
-                .apiV3Key("")
-                .build();
-    }
+//    @Bean
+//    public Config getWxConfig() {
+//        return new RSAAutoCertificateConfig.Builder()
+//                .merchantId("")
+//                .privateKeyFromPath("")
+//                .merchantSerialNumber("")
+//                .apiV3Key("")
+//                .build();
+//    }
 }
