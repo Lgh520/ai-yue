@@ -1,6 +1,8 @@
 package com.project.aiyue;
 
 import com.github.pagehelper.autoconfigure.PageHelperAutoConfiguration;
+import com.wechat.pay.java.core.Config;
+import com.wechat.pay.java.core.RSAAutoCertificateConfig;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,5 +28,15 @@ public class AiyueApplication {
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplateBuilder().build();
+    }
+
+    @Bean
+    public Config getWxConfig() {
+        return new RSAAutoCertificateConfig.Builder()
+                .merchantId("")
+                .privateKeyFromPath("")
+                .merchantSerialNumber("")
+                .apiV3Key("")
+                .build();
     }
 }
