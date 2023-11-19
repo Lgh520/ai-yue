@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.aiyue.dao.OrderInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.project.aiyue.dao.po.OrderInfo" >
+    <id column="ORDER_ID" property="orderId" jdbcType="BIGINT" />
+    <result column="ORDER_MONEY" property="orderMoney" jdbcType="BIGINT" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="ORDER_STATUS" property="orderStatus" jdbcType="VARCHAR" />
+    <result column="ORDER_TYPE" property="orderType" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ORDER_ID, ORDER_MONEY, USER_ID, ORDER_STATUS, ORDER_TYPE, CREATE_TIME, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from order_info
+    where ORDER_ID = #{orderId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from order_info
+    where ORDER_ID = #{orderId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.project.aiyue.dao.po.OrderInfo" >
+    insert into order_info (ORDER_ID, ORDER_MONEY, USER_ID, 
+      ORDER_STATUS, ORDER_TYPE, CREATE_TIME, 
+      UPDATE_TIME)
+    values (#{orderId,jdbcType=BIGINT}, #{orderMoney,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, 
+      #{orderStatus,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.project.aiyue.dao.po.OrderInfo" >
+    insert into order_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="orderMoney != null" >
+        ORDER_MONEY,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="orderStatus != null" >
+        ORDER_STATUS,
+      </if>
+      <if test="orderType != null" >
+        ORDER_TYPE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="orderMoney != null" >
+        #{orderMoney,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.project.aiyue.dao.po.OrderInfo" >
+    update order_info
+    <set >
+      <if test="orderMoney != null" >
+        ORDER_MONEY = #{orderMoney,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        ORDER_STATUS = #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        ORDER_TYPE = #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ORDER_ID = #{orderId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.project.aiyue.dao.po.OrderInfo" >
+    update order_info
+    set ORDER_MONEY = #{orderMoney,jdbcType=BIGINT},
+      USER_ID = #{userId,jdbcType=VARCHAR},
+      ORDER_STATUS = #{orderStatus,jdbcType=VARCHAR},
+      ORDER_TYPE = #{orderType,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where ORDER_ID = #{orderId,jdbcType=BIGINT}
+  </update>
+</mapper>

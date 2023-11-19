@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.aiyue.dao.SysParamMapper" >
+  <resultMap id="BaseResultMap" type="com.project.aiyue.dao.po.SysParam" >
+    <result column="PARAM_CODE" property="paramCode" jdbcType="VARCHAR" />
+    <result column="PARAM_KEY" property="paramKey" jdbcType="VARCHAR" />
+    <result column="PARAM_VALUE" property="paramValue" jdbcType="VARCHAR" />
+    <result column="PARAM_NAME" property="paramName" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.project.aiyue.dao.po.SysParam" >
+    insert into sys_param (PARAM_CODE, PARAM_KEY, PARAM_VALUE, 
+      PARAM_NAME)
+    values (#{paramCode,jdbcType=VARCHAR}, #{paramKey,jdbcType=VARCHAR}, #{paramValue,jdbcType=VARCHAR}, 
+      #{paramName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.project.aiyue.dao.po.SysParam" >
+    insert into sys_param
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="paramCode != null" >
+        PARAM_CODE,
+      </if>
+      <if test="paramKey != null" >
+        PARAM_KEY,
+      </if>
+      <if test="paramValue != null" >
+        PARAM_VALUE,
+      </if>
+      <if test="paramName != null" >
+        PARAM_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="paramCode != null" >
+        #{paramCode,jdbcType=VARCHAR},
+      </if>
+      <if test="paramKey != null" >
+        #{paramKey,jdbcType=VARCHAR},
+      </if>
+      <if test="paramValue != null" >
+        #{paramValue,jdbcType=VARCHAR},
+      </if>
+      <if test="paramName != null" >
+        #{paramName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

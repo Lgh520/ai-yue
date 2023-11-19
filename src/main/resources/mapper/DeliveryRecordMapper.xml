@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.aiyue.dao.DeliveryRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.project.aiyue.dao.po.DeliveryRecord" >
+    <id column="DELIVERY_ID" property="deliveryId" jdbcType="BIGINT" />
+    <result column="RENT_ID" property="rentId" jdbcType="BIGINT" />
+    <result column="DELIVERY_USER" property="deliveryUser" jdbcType="VARCHAR" />
+    <result column="DELIVERY_STATUS" property="deliveryStatus" jdbcType="VARCHAR" />
+    <result column="DELIVERY_TIME" property="deliveryTime" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DELIVERY_ID, RENT_ID, DELIVERY_USER, DELIVERY_STATUS, DELIVERY_TIME, CREATE_TIME, 
+    UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from delivery_record
+    where DELIVERY_ID = #{deliveryId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from delivery_record
+    where DELIVERY_ID = #{deliveryId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.project.aiyue.dao.po.DeliveryRecord" >
+    insert into delivery_record (DELIVERY_ID, RENT_ID, DELIVERY_USER, 
+      DELIVERY_STATUS, DELIVERY_TIME, CREATE_TIME, 
+      UPDATE_TIME)
+    values (#{deliveryId,jdbcType=BIGINT}, #{rentId,jdbcType=BIGINT}, #{deliveryUser,jdbcType=VARCHAR}, 
+      #{deliveryStatus,jdbcType=VARCHAR}, #{deliveryTime,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.project.aiyue.dao.po.DeliveryRecord" >
+    insert into delivery_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="deliveryId != null" >
+        DELIVERY_ID,
+      </if>
+      <if test="rentId != null" >
+        RENT_ID,
+      </if>
+      <if test="deliveryUser != null" >
+        DELIVERY_USER,
+      </if>
+      <if test="deliveryStatus != null" >
+        DELIVERY_STATUS,
+      </if>
+      <if test="deliveryTime != null" >
+        DELIVERY_TIME,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="deliveryId != null" >
+        #{deliveryId,jdbcType=BIGINT},
+      </if>
+      <if test="rentId != null" >
+        #{rentId,jdbcType=BIGINT},
+      </if>
+      <if test="deliveryUser != null" >
+        #{deliveryUser,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryStatus != null" >
+        #{deliveryStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryTime != null" >
+        #{deliveryTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.project.aiyue.dao.po.DeliveryRecord" >
+    update delivery_record
+    <set >
+      <if test="rentId != null" >
+        RENT_ID = #{rentId,jdbcType=BIGINT},
+      </if>
+      <if test="deliveryUser != null" >
+        DELIVERY_USER = #{deliveryUser,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryStatus != null" >
+        DELIVERY_STATUS = #{deliveryStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryTime != null" >
+        DELIVERY_TIME = #{deliveryTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where DELIVERY_ID = #{deliveryId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.project.aiyue.dao.po.DeliveryRecord" >
+    update delivery_record
+    set RENT_ID = #{rentId,jdbcType=BIGINT},
+      DELIVERY_USER = #{deliveryUser,jdbcType=VARCHAR},
+      DELIVERY_STATUS = #{deliveryStatus,jdbcType=VARCHAR},
+      DELIVERY_TIME = #{deliveryTime,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where DELIVERY_ID = #{deliveryId,jdbcType=BIGINT}
+  </update>
+</mapper>

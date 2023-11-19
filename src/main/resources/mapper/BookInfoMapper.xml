@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.aiyue.dao.BookInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.project.aiyue.dao.po.BookInfo" >
+    <id column="BOOK_ID" property="bookId" jdbcType="BIGINT" />
+    <result column="LEVEL_NUM" property="levelNum" jdbcType="VARCHAR" />
+    <result column="SUB_TITLE" property="subTitle" jdbcType="VARCHAR" />
+    <result column="AUTHOR" property="author" jdbcType="VARCHAR" />
+    <result column="PUB_DATE" property="pubDate" jdbcType="VARCHAR" />
+    <result column="ORIGIN_TITLE" property="originTitle" jdbcType="VARCHAR" />
+    <result column="BINDING" property="binding" jdbcType="VARCHAR" />
+    <result column="PAGES" property="pages" jdbcType="VARCHAR" />
+    <result column="IMAGE_MEDIUM" property="imageMedium" jdbcType="VARCHAR" />
+    <result column="IMAGE_LARGE" property="imageLarge" jdbcType="VARCHAR" />
+    <result column="PUBLISHER" property="publisher" jdbcType="VARCHAR" />
+    <result column="ISBN_10" property="isbn10" jdbcType="VARCHAR" />
+    <result column="ISBN_13" property="isbn13" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="SUMMARY" property="summary" jdbcType="VARCHAR" />
+    <result column="PRICE" property="price" jdbcType="VARCHAR" />
+    <result column="BOOK_COUNTS" property="bookCounts" jdbcType="INTEGER" />
+    <result column="RENT_COUNTS" property="rentCounts" jdbcType="BIGINT" />
+    <result column="GOODS_ID" property="goodsId" jdbcType="BIGINT" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BOOK_ID, LEVEL_NUM, SUB_TITLE, AUTHOR, PUB_DATE, ORIGIN_TITLE, BINDING, PAGES, IMAGE_MEDIUM, 
+    IMAGE_LARGE, PUBLISHER, ISBN_10, ISBN_13, TITLE, SUMMARY, PRICE, BOOK_COUNTS, RENT_COUNTS, 
+    GOODS_ID, CREATE_TIME, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from book_info
+    where BOOK_ID = #{bookId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from book_info
+    where BOOK_ID = #{bookId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.project.aiyue.dao.po.BookInfo" >
+    insert into book_info (BOOK_ID, LEVEL_NUM, SUB_TITLE, 
+      AUTHOR, PUB_DATE, ORIGIN_TITLE, 
+      BINDING, PAGES, IMAGE_MEDIUM, 
+      IMAGE_LARGE, PUBLISHER, ISBN_10, 
+      ISBN_13, TITLE, SUMMARY, 
+      PRICE, BOOK_COUNTS, RENT_COUNTS, 
+      GOODS_ID, CREATE_TIME, UPDATE_TIME
+      )
+    values (#{bookId,jdbcType=BIGINT}, #{levelNum,jdbcType=VARCHAR}, #{subTitle,jdbcType=VARCHAR}, 
+      #{author,jdbcType=VARCHAR}, #{pubDate,jdbcType=VARCHAR}, #{originTitle,jdbcType=VARCHAR}, 
+      #{binding,jdbcType=VARCHAR}, #{pages,jdbcType=VARCHAR}, #{imageMedium,jdbcType=VARCHAR}, 
+      #{imageLarge,jdbcType=VARCHAR}, #{publisher,jdbcType=VARCHAR}, #{isbn10,jdbcType=VARCHAR}, 
+      #{isbn13,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, 
+      #{price,jdbcType=VARCHAR}, #{bookCounts,jdbcType=INTEGER}, #{rentCounts,jdbcType=BIGINT}, 
+      #{goodsId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.project.aiyue.dao.po.BookInfo" >
+    insert into book_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bookId != null" >
+        BOOK_ID,
+      </if>
+      <if test="levelNum != null" >
+        LEVEL_NUM,
+      </if>
+      <if test="subTitle != null" >
+        SUB_TITLE,
+      </if>
+      <if test="author != null" >
+        AUTHOR,
+      </if>
+      <if test="pubDate != null" >
+        PUB_DATE,
+      </if>
+      <if test="originTitle != null" >
+        ORIGIN_TITLE,
+      </if>
+      <if test="binding != null" >
+        BINDING,
+      </if>
+      <if test="pages != null" >
+        PAGES,
+      </if>
+      <if test="imageMedium != null" >
+        IMAGE_MEDIUM,
+      </if>
+      <if test="imageLarge != null" >
+        IMAGE_LARGE,
+      </if>
+      <if test="publisher != null" >
+        PUBLISHER,
+      </if>
+      <if test="isbn10 != null" >
+        ISBN_10,
+      </if>
+      <if test="isbn13 != null" >
+        ISBN_13,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="summary != null" >
+        SUMMARY,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="bookCounts != null" >
+        BOOK_COUNTS,
+      </if>
+      <if test="rentCounts != null" >
+        RENT_COUNTS,
+      </if>
+      <if test="goodsId != null" >
+        GOODS_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bookId != null" >
+        #{bookId,jdbcType=BIGINT},
+      </if>
+      <if test="levelNum != null" >
+        #{levelNum,jdbcType=VARCHAR},
+      </if>
+      <if test="subTitle != null" >
+        #{subTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="pubDate != null" >
+        #{pubDate,jdbcType=VARCHAR},
+      </if>
+      <if test="originTitle != null" >
+        #{originTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="binding != null" >
+        #{binding,jdbcType=VARCHAR},
+      </if>
+      <if test="pages != null" >
+        #{pages,jdbcType=VARCHAR},
+      </if>
+      <if test="imageMedium != null" >
+        #{imageMedium,jdbcType=VARCHAR},
+      </if>
+      <if test="imageLarge != null" >
+        #{imageLarge,jdbcType=VARCHAR},
+      </if>
+      <if test="publisher != null" >
+        #{publisher,jdbcType=VARCHAR},
+      </if>
+      <if test="isbn10 != null" >
+        #{isbn10,jdbcType=VARCHAR},
+      </if>
+      <if test="isbn13 != null" >
+        #{isbn13,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null" >
+        #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="bookCounts != null" >
+        #{bookCounts,jdbcType=INTEGER},
+      </if>
+      <if test="rentCounts != null" >
+        #{rentCounts,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.project.aiyue.dao.po.BookInfo" >
+    update book_info
+    <set >
+      <if test="levelNum != null" >
+        LEVEL_NUM = #{levelNum,jdbcType=VARCHAR},
+      </if>
+      <if test="subTitle != null" >
+        SUB_TITLE = #{subTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        AUTHOR = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="pubDate != null" >
+        PUB_DATE = #{pubDate,jdbcType=VARCHAR},
+      </if>
+      <if test="originTitle != null" >
+        ORIGIN_TITLE = #{originTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="binding != null" >
+        BINDING = #{binding,jdbcType=VARCHAR},
+      </if>
+      <if test="pages != null" >
+        PAGES = #{pages,jdbcType=VARCHAR},
+      </if>
+      <if test="imageMedium != null" >
+        IMAGE_MEDIUM = #{imageMedium,jdbcType=VARCHAR},
+      </if>
+      <if test="imageLarge != null" >
+        IMAGE_LARGE = #{imageLarge,jdbcType=VARCHAR},
+      </if>
+      <if test="publisher != null" >
+        PUBLISHER = #{publisher,jdbcType=VARCHAR},
+      </if>
+      <if test="isbn10 != null" >
+        ISBN_10 = #{isbn10,jdbcType=VARCHAR},
+      </if>
+      <if test="isbn13 != null" >
+        ISBN_13 = #{isbn13,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null" >
+        SUMMARY = #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="bookCounts != null" >
+        BOOK_COUNTS = #{bookCounts,jdbcType=INTEGER},
+      </if>
+      <if test="rentCounts != null" >
+        RENT_COUNTS = #{rentCounts,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null" >
+        GOODS_ID = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where BOOK_ID = #{bookId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.project.aiyue.dao.po.BookInfo" >
+    update book_info
+    set LEVEL_NUM = #{levelNum,jdbcType=VARCHAR},
+      SUB_TITLE = #{subTitle,jdbcType=VARCHAR},
+      AUTHOR = #{author,jdbcType=VARCHAR},
+      PUB_DATE = #{pubDate,jdbcType=VARCHAR},
+      ORIGIN_TITLE = #{originTitle,jdbcType=VARCHAR},
+      BINDING = #{binding,jdbcType=VARCHAR},
+      PAGES = #{pages,jdbcType=VARCHAR},
+      IMAGE_MEDIUM = #{imageMedium,jdbcType=VARCHAR},
+      IMAGE_LARGE = #{imageLarge,jdbcType=VARCHAR},
+      PUBLISHER = #{publisher,jdbcType=VARCHAR},
+      ISBN_10 = #{isbn10,jdbcType=VARCHAR},
+      ISBN_13 = #{isbn13,jdbcType=VARCHAR},
+      TITLE = #{title,jdbcType=VARCHAR},
+      SUMMARY = #{summary,jdbcType=VARCHAR},
+      PRICE = #{price,jdbcType=VARCHAR},
+      BOOK_COUNTS = #{bookCounts,jdbcType=INTEGER},
+      RENT_COUNTS = #{rentCounts,jdbcType=BIGINT},
+      GOODS_ID = #{goodsId,jdbcType=BIGINT},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where BOOK_ID = #{bookId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.aiyue.dao.TransInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.project.aiyue.dao.po.TransInfo" >
+    <id column="TRANS_ID" property="transId" jdbcType="BIGINT" />
+    <result column="ORDER_ID" property="orderId" jdbcType="BIGINT" />
+    <result column="TRANS_MONEY" property="transMoney" jdbcType="VARCHAR" />
+    <result column="TRANS_STATUS" property="transStatus" jdbcType="VARCHAR" />
+    <result column="TRANS_TYPE" property="transType" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    TRANS_ID, ORDER_ID, TRANS_MONEY, TRANS_STATUS, TRANS_TYPE, CREATE_TIME, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from trans_info
+    where TRANS_ID = #{transId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from trans_info
+    where TRANS_ID = #{transId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.project.aiyue.dao.po.TransInfo" >
+    insert into trans_info (TRANS_ID, ORDER_ID, TRANS_MONEY, 
+      TRANS_STATUS, TRANS_TYPE, CREATE_TIME, 
+      UPDATE_TIME)
+    values (#{transId,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{transMoney,jdbcType=VARCHAR}, 
+      #{transStatus,jdbcType=VARCHAR}, #{transType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.project.aiyue.dao.po.TransInfo" >
+    insert into trans_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="transId != null" >
+        TRANS_ID,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="transMoney != null" >
+        TRANS_MONEY,
+      </if>
+      <if test="transStatus != null" >
+        TRANS_STATUS,
+      </if>
+      <if test="transType != null" >
+        TRANS_TYPE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="transId != null" >
+        #{transId,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="transMoney != null" >
+        #{transMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="transStatus != null" >
+        #{transStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="transType != null" >
+        #{transType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.project.aiyue.dao.po.TransInfo" >
+    update trans_info
+    <set >
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="transMoney != null" >
+        TRANS_MONEY = #{transMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="transStatus != null" >
+        TRANS_STATUS = #{transStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="transType != null" >
+        TRANS_TYPE = #{transType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where TRANS_ID = #{transId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.project.aiyue.dao.po.TransInfo" >
+    update trans_info
+    set ORDER_ID = #{orderId,jdbcType=BIGINT},
+      TRANS_MONEY = #{transMoney,jdbcType=VARCHAR},
+      TRANS_STATUS = #{transStatus,jdbcType=VARCHAR},
+      TRANS_TYPE = #{transType,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where TRANS_ID = #{transId,jdbcType=BIGINT}
+  </update>
+</mapper>
