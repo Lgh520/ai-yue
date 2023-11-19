@@ -59,7 +59,6 @@
                     <verbose>true</verbose>
                     <overwrite>true</overwrite>
                 </configuration>
-
                 <dependencies>
                     <dependency>
                         <groupId>org.mybatis.generator</groupId>
