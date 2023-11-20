@@ -28,8 +28,7 @@
       USER_TYPE, IS_LOCK, CREATE_TIME, 
       UPDATE_TIME)
     values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{userType,jdbcType=VARCHAR}, #{isLock,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+     0, 0, now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.project.aiyue.dao.po.UserInfo" >
     insert into user_info
