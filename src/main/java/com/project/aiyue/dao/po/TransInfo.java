@@ -1,8 +1,10 @@
 package com.project.aiyue.dao.po;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TransInfo {
+public class TransInfo implements Serializable {
+    private static final long serialVersionUID = -6925746940145729324L;
     private Long transId;
 
     private Long orderId;
@@ -71,5 +73,18 @@ public class TransInfo {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "TransInfo{" +
+                "transId=" + transId +
+                ", orderId=" + orderId +
+                ", transMoney='" + transMoney + '\'' +
+                ", transStatus='" + transStatus + '\'' +
+                ", transType='" + transType + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

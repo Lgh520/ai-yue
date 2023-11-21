@@ -1,8 +1,11 @@
 package com.project.aiyue.dao.po;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class UserInfo {
+public class UserInfo implements Serializable {
+    private static final long serialVersionUID = -5465178824092002786L;
+
     private String userId;
 
     private String userName;
@@ -22,7 +25,7 @@ public class UserInfo {
     }
 
     public void setUserId(String userId) {
-        this.userId = userId == null ? null : userId.trim();
+        this.userId = userId;
     }
 
     public String getUserName() {
@@ -30,7 +33,7 @@ public class UserInfo {
     }
 
     public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -38,7 +41,7 @@ public class UserInfo {
     }
 
     public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+        this.password = password;
     }
 
     public String getUserType() {
@@ -46,7 +49,7 @@ public class UserInfo {
     }
 
     public void setUserType(String userType) {
-        this.userType = userType == null ? null : userType.trim();
+        this.userType = userType;
     }
 
     public String getIsLock() {
@@ -54,7 +57,7 @@ public class UserInfo {
     }
 
     public void setIsLock(String isLock) {
-        this.isLock = isLock == null ? null : isLock.trim();
+        this.isLock = isLock;
     }
 
     public Date getCreateTime() {
@@ -71,5 +74,18 @@ public class UserInfo {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "userId='" + userId + '\'' +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", userType='" + userType + '\'' +
+                ", isLock='" + isLock + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

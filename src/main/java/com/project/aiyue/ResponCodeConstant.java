@@ -1,10 +1,10 @@
 package com.project.aiyue;
 
 public class ResponCodeConstant {
-    //正常
-    public final static Integer NORMAL_CODE = 1;
-    //参数异常
-    public final static Integer PARA_ERROR_CODE = -1;
-    //内部异常
-    public final static Integer INNER_ERROR_CODE = -2;
+    //成功
+    public final static Integer SUCCESS_CODE = 0;
+    //成功描述
+    public final static String SUCCESS_DESC = "成功";
+    //异常
+    public final static Integer ERROR_CODE = 1;
 }

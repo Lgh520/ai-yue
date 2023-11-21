@@ -1,8 +1,10 @@
 package com.project.aiyue.dao.po;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class BookRent {
+public class BookRent implements Serializable {
+    private static final long serialVersionUID = 480281907463797619L;
     private Long rentId;
 
     private String userId;
@@ -61,5 +63,17 @@ public class BookRent {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "BookRent{" +
+                "rentId=" + rentId +
+                ", userId='" + userId + '\'' +
+                ", bookId=" + bookId +
+                ", isBack='" + isBack + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

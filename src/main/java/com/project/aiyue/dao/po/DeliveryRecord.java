@@ -1,8 +1,10 @@
 package com.project.aiyue.dao.po;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class DeliveryRecord {
+public class DeliveryRecord implements Serializable {
+    private static final long serialVersionUID = 5252705374089147219L;
     private Long deliveryId;
 
     private Long rentId;
@@ -71,5 +73,18 @@ public class DeliveryRecord {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "DeliveryRecord{" +
+                "deliveryId=" + deliveryId +
+                ", rentId=" + rentId +
+                ", deliveryUser='" + deliveryUser + '\'' +
+                ", deliveryStatus='" + deliveryStatus + '\'' +
+                ", deliveryTime='" + deliveryTime + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

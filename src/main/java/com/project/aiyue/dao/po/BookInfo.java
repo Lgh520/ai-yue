@@ -1,8 +1,10 @@
 package com.project.aiyue.dao.po;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class BookInfo {
+public class BookInfo implements Serializable {
+    private static final long serialVersionUID = -8019949730918822843L;
     private Long bookId;
 
     private String levelNum;
@@ -211,5 +213,32 @@ public class BookInfo {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "BookInfo{" +
+                "bookId=" + bookId +
+                ", levelNum='" + levelNum + '\'' +
+                ", subTitle='" + subTitle + '\'' +
+                ", author='" + author + '\'' +
+                ", pubDate='" + pubDate + '\'' +
+                ", originTitle='" + originTitle + '\'' +
+                ", binding='" + binding + '\'' +
+                ", pages='" + pages + '\'' +
+                ", imageMedium='" + imageMedium + '\'' +
+                ", imageLarge='" + imageLarge + '\'' +
+                ", publisher='" + publisher + '\'' +
+                ", isbn10='" + isbn10 + '\'' +
+                ", isbn13='" + isbn13 + '\'' +
+                ", title='" + title + '\'' +
+                ", summary='" + summary + '\'' +
+                ", price='" + price + '\'' +
+                ", bookCounts=" + bookCounts +
+                ", rentCounts=" + rentCounts +
+                ", goodsId=" + goodsId +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

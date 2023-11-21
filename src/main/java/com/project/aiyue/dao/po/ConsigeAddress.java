@@ -1,8 +1,9 @@
 package com.project.aiyue.dao.po;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ConsigeAddress {
+public class ConsigeAddress implements Serializable {
     private Integer consignId;
 
     private String userId;
@@ -81,5 +82,19 @@ public class ConsigeAddress {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "ConsigeAddress{" +
+                "consignId=" + consignId +
+                ", userId='" + userId + '\'' +
+                ", address='" + address + '\'' +
+                ", consignee='" + consignee + '\'' +
+                ", consigneePhone='" + consigneePhone + '\'' +
+                ", remark='" + remark + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

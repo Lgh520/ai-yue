@@ -1,8 +1,10 @@
 package com.project.aiyue.dao.po;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class OrderInfo {
+public class OrderInfo implements Serializable {
+    private static final long serialVersionUID = -5894159218018339456L;
     private Long orderId;
 
     private Long orderMoney;
@@ -71,5 +73,18 @@ public class OrderInfo {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderInfo{" +
+                "orderId=" + orderId +
+                ", orderMoney=" + orderMoney +
+                ", userId='" + userId + '\'' +
+                ", orderStatus='" + orderStatus + '\'' +
+                ", orderType='" + orderType + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

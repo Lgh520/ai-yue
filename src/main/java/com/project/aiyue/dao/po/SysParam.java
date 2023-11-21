@@ -1,6 +1,9 @@
 package com.project.aiyue.dao.po;
 
-public class SysParam {
+import java.io.Serializable;
+
+public class SysParam implements Serializable {
+    private static final long serialVersionUID = 7806093017207835998L;
     private String paramCode;
 
     private String paramKey;
@@ -39,5 +42,15 @@ public class SysParam {
 
     public void setParamName(String paramName) {
         this.paramName = paramName == null ? null : paramName.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "SysParam{" +
+                "paramCode='" + paramCode + '\'' +
+                ", paramKey='" + paramKey + '\'' +
+                ", paramValue='" + paramValue + '\'' +
+                ", paramName='" + paramName + '\'' +
+                '}';
     }
 }
