@@ -3,9 +3,9 @@ package com.project.aiyue.responor;
 import lombok.Data;
 
 @Data
-public class CommonRespon {
+public class CommonRespon<T> {
 
     private Integer code;
-    private Object data;
+    private T data;
     private String message;
 }

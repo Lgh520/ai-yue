@@ -21,8 +21,8 @@ public class UserInfoController {
     private UserInfoService userInfoService;
 
     @PostMapping ("/register")
-    public CommonRespon register(@RequestBody @Valid UserInfo userInfo)  {
-        CommonRespon respon = new CommonRespon();
+    public CommonRespon<String> register(@RequestBody @Valid UserInfo userInfo)  {
+        CommonRespon<String> respon = new CommonRespon();
         try {
             String register = userInfoService.register(userInfo);
             if(register != null){
@@ -45,8 +45,8 @@ public class UserInfoController {
         return respon;
     }
     @PostMapping ("/login")
-    public CommonRespon login(@RequestBody @Valid UserInfo userInfo)  {
-        CommonRespon respon = new CommonRespon();
+    public CommonRespon<Boolean> login(@RequestBody @Valid UserInfo userInfo)  {
+        CommonRespon<Boolean> respon = new CommonRespon();
         try {
             Boolean login = userInfoService.login(userInfo);
             if(login != null){
