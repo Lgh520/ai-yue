@@ -16,6 +16,8 @@
     <result column="ISBN_10" property="isbn10" jdbcType="VARCHAR" />
     <result column="ISBN_13" property="isbn13" jdbcType="VARCHAR" />
     <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="AGE_TYPE" property="ageType" jdbcType="INTEGER" />
+    <result column="THEME_TYPE" property="themeType" jdbcType="VARCHAR" />
     <result column="SUMMARY" property="summary" jdbcType="VARCHAR" />
     <result column="PRICE" property="price" jdbcType="VARCHAR" />
     <result column="BOOK_COUNTS" property="bookCounts" jdbcType="INTEGER" />
@@ -27,7 +29,7 @@
   <sql id="Base_Column_List" >
     BOOK_ID, LEVEL_NUM, SUB_TITLE, AUTHOR, PUB_DATE, ORIGIN_TITLE, BINDING, PAGES, IMAGE_MEDIUM, 
     IMAGE_LARGE, PUBLISHER, ISBN_10, ISBN_13, TITLE, SUMMARY, PRICE, BOOK_COUNTS, RENT_COUNTS, 
-    GOODS_ID, CREATE_TIME, UPDATE_TIME
+    GOODS_ID, CREATE_TIME, UPDATE_TIME ,AGE_TYPE ,THEME_TYPE
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -46,7 +48,8 @@
       IMAGE_LARGE, PUBLISHER, ISBN_10, 
       ISBN_13, TITLE, SUMMARY, 
       PRICE, BOOK_COUNTS, RENT_COUNTS, 
-      GOODS_ID, CREATE_TIME, UPDATE_TIME
+      GOODS_ID, CREATE_TIME, UPDATE_TIME,
+      AGE_TYPE ,THEME_TYPE
       )
     values (#{bookId,jdbcType=BIGINT}, #{levelNum,jdbcType=VARCHAR}, #{subTitle,jdbcType=VARCHAR}, 
       #{author,jdbcType=VARCHAR}, #{pubDate,jdbcType=VARCHAR}, #{originTitle,jdbcType=VARCHAR}, 
@@ -54,7 +57,8 @@
       #{imageLarge,jdbcType=VARCHAR}, #{publisher,jdbcType=VARCHAR}, #{isbn10,jdbcType=VARCHAR}, 
       #{isbn13,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, 
       #{price,jdbcType=VARCHAR}, #{bookCounts,jdbcType=INTEGER}, #{rentCounts,jdbcType=BIGINT}, 
-      #{goodsId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      #{goodsId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+      #{ageType,jdbcType=INTEGER}, #{themeType,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.project.aiyue.dao.po.BookInfo" >
@@ -123,6 +127,12 @@
       <if test="updateTime != null" >
         UPDATE_TIME,
       </if>
+      <if test="ageType != null" >
+        AGE_TYPE,
+      </if>
+      <if test="themeType != null" >
+        THEME_TYPE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="bookId != null" >
@@ -187,6 +197,12 @@
       </if>
       <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ageType != null" >
+        #{ageType,jdbcType=INTEGER},
+      </if>
+      <if test="themeType != null" >
+        #{themeType,jdbcType=VARCHAR}
       </if>
     </trim>
   </insert>
@@ -253,6 +269,12 @@
       <if test="updateTime != null" >
         UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="ageType != null" >
+        AGE_TYPE = #{ageType,jdbcType=INTEGER},
+      </if>
+      <if test="themeType != null" >
+        THEME_TYPE = #{themeType,jdbcType=VARCHAR}
+      </if>
     </set>
     where BOOK_ID = #{bookId,jdbcType=BIGINT}
   </update>
@@ -277,7 +299,9 @@
       RENT_COUNTS = #{rentCounts,jdbcType=BIGINT},
       GOODS_ID = #{goodsId,jdbcType=BIGINT},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      AGE_TYPE = #{ageType,jdbcType=INTEGER},
+      THEME_TYPE = #{themeType,jdbcType=VARCHAR}
     where BOOK_ID = #{bookId,jdbcType=BIGINT}
   </update>
 </mapper>

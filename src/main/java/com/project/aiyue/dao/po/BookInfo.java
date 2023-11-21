@@ -46,6 +46,8 @@ public class BookInfo implements Serializable {
     private Date createTime;
 
     private Date updateTime;
+    private String ageType;
+    private String themeType;
 
     public Long getBookId() {
         return bookId;
@@ -215,6 +217,22 @@ public class BookInfo implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public String getAgeType() {
+        return ageType;
+    }
+
+    public void setAgeType(String ageType) {
+        this.ageType = ageType;
+    }
+
+    public String getThemeType() {
+        return themeType;
+    }
+
+    public void setThemeType(String themeType) {
+        this.themeType = themeType;
+    }
+
     @Override
     public String toString() {
         return "BookInfo{" +
@@ -239,6 +257,8 @@ public class BookInfo implements Serializable {
                 ", goodsId=" + goodsId +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
+                ", ageType='" + ageType + '\'' +
+                ", themeType='" + themeType + '\'' +
                 '}';
     }
 }

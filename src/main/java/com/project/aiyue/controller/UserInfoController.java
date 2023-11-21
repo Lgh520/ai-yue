@@ -29,23 +29,14 @@ public class UserInfoController {
         try {
             String register = userInfoService.register(userInfo);
             if(register != null){
-                respon.setCode(ResponCodeConstant.NORMAL_CODE);
-                respon.setData(register);
+                return CommonRespon.success(register);
             }
-        }catch (CommonException e){
-            e.printStackTrace();
-            log.info(e.getMessage());
-            respon.setCode(ResponCodeConstant.PARA_ERROR_CODE);
-            respon.setData(e.getMessage());
-            return respon;
         }catch (Exception e){
             e.printStackTrace();
-            log.info(e.getMessage());
-            respon.setCode(ResponCodeConstant.PARA_ERROR_CODE);
-            respon.setData(e.getMessage());
-            return respon;
+            log.info("用户注册失败：{}",e.getMessage());
+            return  CommonRespon.error(ResponCodeConstant.ERROR_CODE,e.getMessage());
         }
-        return respon;
+        return  CommonRespon.error(ResponCodeConstant.ERROR_CODE,"注册失败，请重试");
     }
 
     @ApiOperation("客户端用户登录接口")
