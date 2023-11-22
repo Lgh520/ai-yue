@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 @ComponentScan("com.project.aiyue.*")
 @MapperScan("com.project.aiyue.dao")
-@SpringBootApplication(exclude = {PageHelperAutoConfiguration.class, DataSourceAutoConfiguration.class})
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class AiyueApplication {
 
     @RequestMapping

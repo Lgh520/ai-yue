@@ -36,6 +36,17 @@
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>1.2.3</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.github.pagehelper</groupId>-->
+<!--            <artifactId>pagehelper</artifactId>-->
+<!--            <version>5.1.10</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-autoconfigure &ndash;&gt;-->
+<!--        <dependency>-->
+<!--        <groupId>com.github.pagehelper</groupId>-->
+<!--        <artifactId>pagehelper-spring-boot-autoconfigure</artifactId>-->
+<!--        <version>1.4.6</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

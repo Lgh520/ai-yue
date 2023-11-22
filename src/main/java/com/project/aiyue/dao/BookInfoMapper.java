@@ -3,6 +3,8 @@ package com.project.aiyue.dao;
 import com.project.aiyue.dao.po.BookInfo;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface BookInfoMapper {
     int deleteByPrimaryKey(Long bookId);
@@ -12,6 +14,8 @@ public interface BookInfoMapper {
     int insertSelective(BookInfo record);
 
     BookInfo selectByPrimaryKey(Long bookId);
+
+    List<BookInfo> selectList();
 
     int updateByPrimaryKeySelective(BookInfo record);
 

@@ -1,6 +1,6 @@
 package com.project.aiyue.responor;
 
-import com.project.aiyue.ResponCodeConstant;
+import com.project.aiyue.constant.ResponCodeConstant;
 import lombok.Builder;
 import lombok.Data;
 

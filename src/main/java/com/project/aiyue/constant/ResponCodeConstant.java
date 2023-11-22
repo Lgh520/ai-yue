@@ -1,4 +1,4 @@
-package com.project.aiyue;
+package com.project.aiyue.constant;
 
 public class ResponCodeConstant {
     //成功

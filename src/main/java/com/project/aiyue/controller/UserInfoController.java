@@ -1,15 +1,13 @@
 package com.project.aiyue.controller;
 
 
-import com.project.aiyue.ResponCodeConstant;
+import com.project.aiyue.constant.ResponCodeConstant;
 import com.project.aiyue.dao.po.UserInfo;
-import com.project.aiyue.exception.CommonException;
 import com.project.aiyue.responor.CommonRespon;
 import com.project.aiyue.service.UserInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
