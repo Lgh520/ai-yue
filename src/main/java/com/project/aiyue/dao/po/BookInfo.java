@@ -1,9 +1,11 @@
 package com.project.aiyue.dao.po;
 
+import com.project.aiyue.dao.bo.Page;
+
 import java.io.Serializable;
 import java.util.Date;
 
-public class BookInfo implements Serializable {
+public class BookInfo extends Page implements Serializable {
     private static final long serialVersionUID = -8019949730918822843L;
     private Long bookId;
 
@@ -46,8 +48,8 @@ public class BookInfo implements Serializable {
     private Date createTime;
 
     private Date updateTime;
-    private String ageType;
-    private String themeType;
+    private Integer ageType;
+    private Integer themeType;
 
     public Long getBookId() {
         return bookId;
@@ -217,19 +219,19 @@ public class BookInfo implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public String getAgeType() {
+    public Integer getAgeType() {
         return ageType;
     }
 
-    public void setAgeType(String ageType) {
+    public void setAgeType(Integer ageType) {
         this.ageType = ageType;
     }
 
-    public String getThemeType() {
+    public Integer getThemeType() {
         return themeType;
     }
 
-    public void setThemeType(String themeType) {
+    public void setThemeType(Integer themeType) {
         this.themeType = themeType;
     }
 

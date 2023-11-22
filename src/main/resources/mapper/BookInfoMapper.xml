@@ -17,7 +17,7 @@
     <result column="ISBN_13" property="isbn13" jdbcType="VARCHAR" />
     <result column="TITLE" property="title" jdbcType="VARCHAR" />
     <result column="AGE_TYPE" property="ageType" jdbcType="INTEGER" />
-    <result column="THEME_TYPE" property="themeType" jdbcType="VARCHAR" />
+    <result column="THEME_TYPE" property="themeType" jdbcType="INTEGER" />
     <result column="SUMMARY" property="summary" jdbcType="VARCHAR" />
     <result column="PRICE" property="price" jdbcType="VARCHAR" />
     <result column="BOOK_COUNTS" property="bookCounts" jdbcType="INTEGER" />
@@ -63,7 +63,7 @@
       #{isbn13,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, 
       #{price,jdbcType=VARCHAR}, #{bookCounts,jdbcType=INTEGER}, #{rentCounts,jdbcType=BIGINT}, 
       #{goodsId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
-      #{ageType,jdbcType=INTEGER}, #{themeType,jdbcType=VARCHAR}
+      #{ageType,jdbcType=INTEGER}, #{themeType,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.project.aiyue.dao.po.BookInfo" >
@@ -207,7 +207,7 @@
         #{ageType,jdbcType=INTEGER},
       </if>
       <if test="themeType != null" >
-        #{themeType,jdbcType=VARCHAR}
+        #{themeType,jdbcType=INTEGER}
       </if>
     </trim>
   </insert>
@@ -278,7 +278,7 @@
         AGE_TYPE = #{ageType,jdbcType=INTEGER},
       </if>
       <if test="themeType != null" >
-        THEME_TYPE = #{themeType,jdbcType=VARCHAR}
+        THEME_TYPE = #{themeType,jdbcType=INTEGER}
       </if>
     </set>
     where BOOK_ID = #{bookId,jdbcType=BIGINT}
@@ -308,5 +308,19 @@
       AGE_TYPE = #{ageType,jdbcType=INTEGER},
       THEME_TYPE = #{themeType,jdbcType=VARCHAR}
     where BOOK_ID = #{bookId,jdbcType=BIGINT}
+  </update>
+  <select id="getList" resultMap="BaseResultMap">
+    select BOOK_ID,TITLE,IMAGE_MEDIUM from book_info
+  </select>
+  <select id="getIdByIsbn" resultType="long">
+    select BOOK_ID from book_info
+    where ISBN_10 = #{isbn10} AND ISBN_13 = #{isbn13}
+  </select>
+  <update id="updateBookCountById" >
+    start transaction;
+    update book_info
+    set BOOK_COUNTS = BOOK_COUNTS + 1
+    where BOOK_ID = #{id};
+    commit;
   </update>
 </mapper>

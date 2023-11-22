@@ -20,4 +20,9 @@ public interface BookInfoMapper {
     int updateByPrimaryKeySelective(BookInfo record);
 
     int updateByPrimaryKey(BookInfo record);
+    List<BookInfo> getList();
+
+    Long getIdByIsbn(String isbn10,String isbn13);
+
+    Long updateBookCountById(Long id);
 }
