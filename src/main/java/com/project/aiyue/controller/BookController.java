@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -74,6 +75,20 @@ public class BookController {
         }
         return  CommonRespon.error(ResponCodeConstant.ERROR_CODE,"新增图书失败，请重试");
     }
-
+    @PostMapping("/borrow")
+    @ApiOperation("图书借阅")
+    public CommonRespon Borrow(@RequestBody @Valid List<BookInfo> list)  {
+        try {
+            Boolean borrow = bookInfoService.borrow(list);
+            if(borrow){
+                return CommonRespon.success(null);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info("图书借阅失败：{}",e.getMessage());
+            return  CommonRespon.error(ResponCodeConstant.ERROR_CODE,e.getMessage());
+        }
+        return  CommonRespon.error(ResponCodeConstant.ERROR_CODE,"图书借阅失败，请重试");
+    }
 
 }

@@ -62,7 +62,7 @@
       #{imageLarge,jdbcType=VARCHAR}, #{publisher,jdbcType=VARCHAR}, #{isbn10,jdbcType=VARCHAR}, 
       #{isbn13,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, 
       #{price,jdbcType=VARCHAR}, #{bookCounts,jdbcType=INTEGER}, #{rentCounts,jdbcType=BIGINT}, 
-      #{goodsId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+      #{goodsId,jdbcType=BIGINT}, now(),now(),
       #{ageType,jdbcType=INTEGER}, #{themeType,jdbcType=INTEGER}
       )
   </insert>
@@ -309,18 +309,21 @@
       THEME_TYPE = #{themeType,jdbcType=VARCHAR}
     where BOOK_ID = #{bookId,jdbcType=BIGINT}
   </update>
-  <select id="getList" resultMap="BaseResultMap">
+  <select id="getList" resultMap="BaseResultMap" parameterType="com.project.aiyue.dao.po.BookInfo">
     select BOOK_ID,TITLE,IMAGE_MEDIUM from book_info
+    where 1 = 1
+    <if test="ageType != null" >
+      and AGE_TYPE = #{ageType,jdbcType=INTEGER}
+    </if>
+    <if test="themeType != null" >
+      and THEME_TYPE = #{themeType,jdbcType=INTEGER}
+    </if>
   </select>
   <select id="getIdByIsbn" resultType="long">
     select BOOK_ID from book_info
     where ISBN_10 = #{isbn10} AND ISBN_13 = #{isbn13}
   </select>
-  <update id="updateBookCountById" >
-    start transaction;
-    update book_info
-    set BOOK_COUNTS = BOOK_COUNTS + 1
-    where BOOK_ID = #{id};
-    commit;
+  <update id="updateBookCountById" keyColumn="">
+    update book_info set BOOK_COUNTS = BOOK_COUNTS + #{count}, UPDATE_TIME = now() where BOOK_ID = #{id};
   </update>
 </mapper>

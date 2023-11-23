@@ -11,4 +11,5 @@ public interface BookInfoService {
     PageInfo<BookInfo> getList(BookInfo bookInfo);
     BookInfo getInfo(Long id);
     Boolean insert(BookInfo bookInfo);
+    Boolean borrow(List<BookInfo> list);
 }
