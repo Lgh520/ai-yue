@@ -10,9 +10,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @ComponentScan("com.project.aiyue.*")
 @MapperScan("com.project.aiyue.dao")
+@EnableSwagger2
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class AiyueApplication {
 
