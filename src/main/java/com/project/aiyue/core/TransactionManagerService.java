@@ -29,6 +29,7 @@ public class TransactionManagerService {
             result.setBookName(info.getTitle());
             result.setBookId(info.getBookId());
             Long aLong = bookInfoMapper.borrowBookById(bookInfo.getBookId(), bookInfo.getBookCounts());
+            bookInfoMapper.updateRentCountById(bookInfo.getBookId());
             if(aLong != 0){
                 BookRent bookRent = new BookRent();
                 bookRent.setUserId(userId);

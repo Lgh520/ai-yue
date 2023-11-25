@@ -46,6 +46,7 @@ public class BookInfoServiceImpl implements BookInfoService {
             throw new CommonException(-1, "图书ID不能为空");
         }
         BookInfo bookInfo = bookInfoMapper.selectByPrimaryKey(id);
+        bookInfoMapper.updateViewCountById(id);
         if (bookInfo == null) {
             log.info("获取图书详情失败，图书ID也不存在，id={}", id);
             throw new CommonException(-1, "获取图书详情失败，图书ID不存在");
@@ -96,5 +97,11 @@ public class BookInfoServiceImpl implements BookInfoService {
             result.add(bookRentWrapper);
         }
         return result;
+    }
+
+    @Override
+    public List<BookInfo> getNewlyBook() {
+        List<BookInfo> newlyBook = bookInfoMapper.getNewlyBook();
+        return newlyBook;
     }
 }

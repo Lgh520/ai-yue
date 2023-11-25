@@ -13,4 +13,5 @@ public interface BookInfoService {
     BookInfo getInfo(Long id);
     Boolean insert(BookInfo bookInfo);
     List<BookRentWrapper> borrow(List<BookInfo> list, String userId);
+    List<BookInfo> getNewlyBook();
 }

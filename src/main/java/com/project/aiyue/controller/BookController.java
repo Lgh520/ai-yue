@@ -28,7 +28,7 @@ public class BookController {
 
     @GetMapping()
     @ApiOperation("图书查询接口")
-    public CommonRespon getList(BookInfo bookInfo)  {
+    public CommonRespon<PageInfo<BookInfo>> getList(BookInfo bookInfo)  {
         try {
             PageInfo<BookInfo> result = new PageInfo<BookInfo>();
             if(bookInfo == null){
@@ -48,7 +48,7 @@ public class BookController {
     }
     @GetMapping("/{id}")
     @ApiOperation("获取图书详情")
-    public CommonRespon getInfo(@PathVariable Long id)  {
+    public CommonRespon<BookInfo> getInfo(@PathVariable Long id)  {
         try {
             BookInfo info = bookInfoService.getInfo(id);
             if(info != null){
@@ -62,12 +62,12 @@ public class BookController {
         return  CommonRespon.error(ResponCodeConstant.ERROR_CODE,"获取图书详情，请重试");
     }
     @PostMapping()
-    @ApiOperation("获取图书详情")
-    public CommonRespon insert(@RequestBody @Valid BookInfo bookInfo)  {
+    @ApiOperation("新增图书")
+    public CommonRespon<Boolean> insert(@RequestBody @Valid BookInfo bookInfo)  {
         try {
             Boolean insert = bookInfoService.insert(bookInfo);
             if(insert){
-                return CommonRespon.success(null);
+                return CommonRespon.success(insert);
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -78,7 +78,7 @@ public class BookController {
     }
     @PostMapping("/{id}/borrow")
     @ApiOperation("图书借阅")
-    public CommonRespon Borrow(@RequestBody @Valid List<BookInfo> list,@PathVariable String id)  {
+    public CommonRespon<List<BookRentWrapper>> Borrow(@RequestBody @Valid List<BookInfo> list,@PathVariable String id)  {
         try {
             List<BookRentWrapper> borrow = bookInfoService.borrow(list,id);
             if(borrow != null){
@@ -90,6 +90,21 @@ public class BookController {
             return  CommonRespon.error(ResponCodeConstant.ERROR_CODE,e.getMessage());
         }
         return  CommonRespon.error(ResponCodeConstant.ERROR_CODE,"图书借阅失败，请重试");
+    }
+    @GetMapping("/newlyBook")
+    @ApiOperation("获取最新上架图书")
+    public CommonRespon<List<BookInfo>> newlyBook()  {
+        try {
+            List<BookInfo> newlyBook = bookInfoService.getNewlyBook();
+            if(newlyBook != null){
+                return CommonRespon.success(newlyBook);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            log.info("获取最新上架图书：{}",e.getMessage());
+            return  CommonRespon.error(ResponCodeConstant.ERROR_CODE,e.getMessage());
+        }
+        return  CommonRespon.error(ResponCodeConstant.ERROR_CODE,"获取最新上架图书，请重试");
     }
 
 }

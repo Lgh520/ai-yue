@@ -16,12 +16,13 @@
     <result column="ISBN_10" property="isbn10" jdbcType="VARCHAR" />
     <result column="ISBN_13" property="isbn13" jdbcType="VARCHAR" />
     <result column="TITLE" property="title" jdbcType="VARCHAR" />
-    <result column="AGE_TYPE" property="ageType" jdbcType="INTEGER" />
-    <result column="THEME_TYPE" property="themeType" jdbcType="INTEGER" />
+    <result column="AGE_TYPE" property="ageType" jdbcType="VARCHAR" />
+    <result column="THEME_TYPE" property="themeType" jdbcType="VARCHAR" />
     <result column="SUMMARY" property="summary" jdbcType="VARCHAR" />
     <result column="PRICE" property="price" jdbcType="VARCHAR" />
     <result column="BOOK_COUNTS" property="bookCounts" jdbcType="INTEGER" />
     <result column="RENT_COUNTS" property="rentCounts" jdbcType="BIGINT" />
+    <result column="VIEW_COUNTS" property="viewCounts" jdbcType="BIGINT" />
     <result column="GOODS_ID" property="goodsId" jdbcType="BIGINT" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
@@ -29,7 +30,7 @@
   <sql id="Base_Column_List" >
     BOOK_ID, LEVEL_NUM, SUB_TITLE, AUTHOR, PUB_DATE, ORIGIN_TITLE, BINDING, PAGES, IMAGE_MEDIUM, 
     IMAGE_LARGE, PUBLISHER, ISBN_10, ISBN_13, TITLE, SUMMARY, PRICE, BOOK_COUNTS, RENT_COUNTS, 
-    GOODS_ID, CREATE_TIME, UPDATE_TIME ,AGE_TYPE ,THEME_TYPE
+    GOODS_ID, CREATE_TIME, UPDATE_TIME ,AGE_TYPE ,THEME_TYPE,VIEW_COUNTS
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -54,16 +55,16 @@
       ISBN_13, TITLE, SUMMARY, 
       PRICE, BOOK_COUNTS, RENT_COUNTS, 
       GOODS_ID, CREATE_TIME, UPDATE_TIME,
-      AGE_TYPE ,THEME_TYPE
+      AGE_TYPE ,THEME_TYPE,VIEW_COUNTS
       )
     values (#{bookId,jdbcType=BIGINT}, #{levelNum,jdbcType=VARCHAR}, #{subTitle,jdbcType=VARCHAR}, 
       #{author,jdbcType=VARCHAR}, #{pubDate,jdbcType=VARCHAR}, #{originTitle,jdbcType=VARCHAR}, 
       #{binding,jdbcType=VARCHAR}, #{pages,jdbcType=VARCHAR}, #{imageMedium,jdbcType=VARCHAR}, 
       #{imageLarge,jdbcType=VARCHAR}, #{publisher,jdbcType=VARCHAR}, #{isbn10,jdbcType=VARCHAR}, 
       #{isbn13,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, 
-      #{price,jdbcType=VARCHAR}, #{bookCounts,jdbcType=INTEGER}, #{rentCounts,jdbcType=BIGINT}, 
+      #{price,jdbcType=VARCHAR}, 1, 0,
       #{goodsId,jdbcType=BIGINT}, now(),now(),
-      #{ageType,jdbcType=INTEGER}, #{themeType,jdbcType=INTEGER}
+      #{ageType,jdbcType=VARCHAR}, #{themeType,jdbcType=VARCHAR},0
       )
   </insert>
   <insert id="insertSelective" parameterType="com.project.aiyue.dao.po.BookInfo" >
@@ -204,10 +205,10 @@
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="ageType != null" >
-        #{ageType,jdbcType=INTEGER},
+        #{ageType,jdbcType=VARCHAR},
       </if>
       <if test="themeType != null" >
-        #{themeType,jdbcType=INTEGER}
+        #{themeType,jdbcType=VARCHAR}
       </if>
     </trim>
   </insert>
@@ -275,10 +276,10 @@
         UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="ageType != null" >
-        AGE_TYPE = #{ageType,jdbcType=INTEGER},
+        AGE_TYPE = #{ageType,jdbcType=VARCHAR},
       </if>
       <if test="themeType != null" >
-        THEME_TYPE = #{themeType,jdbcType=INTEGER}
+        THEME_TYPE = #{themeType,jdbcType=VARCHAR}
       </if>
     </set>
     where BOOK_ID = #{bookId,jdbcType=BIGINT}
@@ -305,7 +306,7 @@
       GOODS_ID = #{goodsId,jdbcType=BIGINT},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
-      AGE_TYPE = #{ageType,jdbcType=INTEGER},
+      AGE_TYPE = #{ageType,jdbcType=VARCHAR},
       THEME_TYPE = #{themeType,jdbcType=VARCHAR}
     where BOOK_ID = #{bookId,jdbcType=BIGINT}
   </update>
@@ -313,14 +314,24 @@
     select BOOK_ID,TITLE,IMAGE_MEDIUM from book_info
     where 1 = 1
     <if test="ageType != null" >
-      and AGE_TYPE = #{ageType,jdbcType=INTEGER}
+      and AGE_TYPE = #{ageType,jdbcType=VARCHAR}
     </if>
     <if test="themeType != null" >
-      and THEME_TYPE = #{themeType,jdbcType=INTEGER}
+      and THEME_TYPE = #{themeType,jdbcType=VARCHAR}
     </if>
     <if test="title != null" >
       and TITLE like concat('%',#{title},'%')
     </if>
+    <if test="orderBy == 1" >
+    ORDER BY RENT_COUNTS DESC
+    </if>
+    <if test="orderBy == 2" >
+    ORDER BY VIEW_COUNTS DESC
+    </if>
+    <if test="orderBy == 3" >
+    ORDER BY CREATE_TIME DESC
+    </if>
+
   </select>
   <select id="getIdByIsbn" resultType="long">
     select BOOK_ID from book_info
@@ -335,5 +346,14 @@
     else BOOK_COUNTS
     end
     WHERE BOOK_ID = #{id};
+  </update>
+  <select id="getNewlyBook" resultMap="BaseResultMap">
+    SELECT BOOK_ID, TITLE,IMAGE_MEDIUM  from book_info ORDER BY CREATE_TIME DESC LIMIT 9
+  </select>
+  <update id="updateViewCountById">
+    UPDATE book_info set VIEW_COUNTS = VIEW_COUNTS + 1 WHERE BOOK_ID = #{id};
+  </update>
+  <update id="updateRentCountById">
+    UPDATE book_info set RENT_COUNTS = RENT_COUNTS + 1 WHERE BOOK_ID = #{id};
   </update>
 </mapper>

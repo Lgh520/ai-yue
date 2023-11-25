@@ -78,8 +78,8 @@ CREATE TABLE aiyue.`book_info`
     `GOODS_ID`     bigint       DEFAULT NULL COMMENT '货架ID(待定)',
     `CREATE_TIME`  datetime     DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `UPDATE_TIME`  datetime     DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-    `AGE_TYPE`     int          DEFAULT NULL COMMENT '年龄类型',
-    `THEME_TYPE`   int          DEFAULT NULL COMMENT '主题类型',
+    `AGE_TYPE`     varchar(32)  DEFAULT NULL COMMENT '年龄类型',
+    `THEME_TYPE`   varchar(32)  DEFAULT NULL COMMENT '主题类型',
     PRIMARY KEY (`BOOK_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '书籍表';
 

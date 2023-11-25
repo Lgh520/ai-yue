@@ -25,7 +25,7 @@ public class UserInfoController {
 
     @PostMapping ("/register")
     @ApiOperation("客户端用户注册接口")
-    public CommonRespon register(@RequestBody @Valid UserInfo userInfo)  {
+    public CommonRespon<String> register(@RequestBody @Valid UserInfo userInfo)  {
         try {
             String register = userInfoService.register(userInfo);
             if(register != null){
@@ -41,7 +41,7 @@ public class UserInfoController {
 
     @ApiOperation("客户端用户登录接口")
     @PostMapping ("/login")
-    public CommonRespon login(@RequestBody @Valid UserInfo userInfo)  {
+    public CommonRespon<UserInfo> login(@RequestBody @Valid UserInfo userInfo)  {
         try {
             UserInfo info = userInfoService.login(userInfo);
             if(info != null){

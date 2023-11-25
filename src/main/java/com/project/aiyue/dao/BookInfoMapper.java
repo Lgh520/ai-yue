@@ -21,9 +21,12 @@ public interface BookInfoMapper {
 
     int updateByPrimaryKey(BookInfo record);
     List<BookInfo> getList(BookInfo bookInfo);
+    List<BookInfo> getNewlyBook();
 
     Long getIdByIsbn(String isbn10,String isbn13);
 
     Long addBookCountById(Long id,Integer count);
     Long borrowBookById(Long id,Integer count);
+    Integer updateViewCountById(Long id);
+    Integer updateRentCountById(Long id);
 }

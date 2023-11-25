@@ -48,6 +48,8 @@ public class BookInfo extends Page implements Serializable {
     private Integer bookCounts;
     @ApiModelProperty("借阅次数")
     private Long rentCounts;
+    @ApiModelProperty("浏览次数")
+    private Long viewCounts;
     @ApiModelProperty("货架ID")
     private Long goodsId;
     @ApiModelProperty("创建时间")
@@ -55,8 +57,10 @@ public class BookInfo extends Page implements Serializable {
     @ApiModelProperty("更新时间")
     private Date updateTime;
     @ApiModelProperty("年龄类型")
-    private Integer ageType;
+    private String ageType;
     @ApiModelProperty("主题类型")
-    private Integer themeType;
+    private String themeType;
+    @ApiModelProperty("排序方式")
+    private Integer orderBy;
 
 }
