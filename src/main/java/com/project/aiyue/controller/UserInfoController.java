@@ -1,7 +1,7 @@
 package com.project.aiyue.controller;
 
 
-import com.project.aiyue.ResponCodeConstant;
+import com.project.aiyue.constant.ResponCodeConstant;
 import com.project.aiyue.dao.po.UserInfo;
 import com.project.aiyue.exception.CommonException;
 import com.project.aiyue.responor.CommonRespon;
