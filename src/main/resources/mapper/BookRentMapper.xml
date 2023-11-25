@@ -6,6 +6,7 @@
     <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
     <result column="BOOK_ID" property="bookId" jdbcType="BIGINT" />
     <result column="IS_BACK" property="isBack" jdbcType="VARCHAR" />
+    <result column="BOOK_COUNT" property="bookCount" jdbcType="INTEGER" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -24,10 +25,10 @@
   </delete>
   <insert id="insert" parameterType="com.project.aiyue.dao.po.BookRent" >
     insert into book_rent (RENT_ID, USER_ID, BOOK_ID, 
-      IS_BACK, CREATE_TIME, UPDATE_TIME
+      IS_BACK, CREATE_TIME, UPDATE_TIME,BOOK_COUNT
       )
     values (#{rentId,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{bookId,jdbcType=BIGINT}, 
-      #{isBack,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      #{isBack,jdbcType=VARCHAR}, now(), now(),#{bookCount,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.project.aiyue.dao.po.BookRent" >

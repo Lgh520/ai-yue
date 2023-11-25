@@ -3,7 +3,9 @@ package com.project.aiyue.service.serviceImpl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.project.aiyue.core.TransactionManagerService;
 import com.project.aiyue.dao.BookInfoMapper;
+import com.project.aiyue.dao.bo.BookRentWrapper;
 import com.project.aiyue.dao.po.BookInfo;
 import com.project.aiyue.exception.CommonException;
 import com.project.aiyue.service.BookInfoService;
@@ -13,7 +15,9 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,6 +25,8 @@ import java.util.List;
 public class BookInfoServiceImpl implements BookInfoService {
     @Autowired
     private BookInfoMapper bookInfoMapper;
+    @Autowired
+    private TransactionManagerService transactionManagerService;
 
     @Override
     public PageInfo<BookInfo> getList(BookInfo bookInfo) {
@@ -62,7 +68,7 @@ public class BookInfoServiceImpl implements BookInfoService {
         Long id = bookInfoMapper.getIdByIsbn(bookInfo.getIsbn10(), bookInfo.getIsbn13());
         if (id != null) {
             //存在更新库存
-            Long integer = bookInfoMapper.updateBookCountById(id,bookInfo.getBookCounts());
+            Long integer = bookInfoMapper.addBookCountById(id,bookInfo.getBookCounts());
             if (integer == 0) {
                 log.info("图书添加失败，请重试");
                 return false;
@@ -79,7 +85,16 @@ public class BookInfoServiceImpl implements BookInfoService {
     }
 
     @Override
-    public Boolean borrow(List<BookInfo> list) {
-        return null;
+    public List<BookRentWrapper> borrow(List<BookInfo> list,String userId) {
+        ArrayList<BookRentWrapper> result = new ArrayList<>();
+        if (CollectionUtils.isEmpty(list)) {
+            log.info("借阅图书不能为空");
+            throw new CommonException(-1, "借阅图书不能为空");
+        }
+        for (BookInfo bookInfo : list){
+            BookRentWrapper bookRentWrapper = transactionManagerService.borrowBook(bookInfo, userId);
+            result.add(bookRentWrapper);
+        }
+        return result;
     }
 }

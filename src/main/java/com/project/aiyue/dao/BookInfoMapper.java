@@ -24,5 +24,6 @@ public interface BookInfoMapper {
 
     Long getIdByIsbn(String isbn10,String isbn13);
 
-    Long updateBookCountById(Long id,Integer count);
+    Long addBookCountById(Long id,Integer count);
+    Long borrowBookById(Long id,Integer count);
 }
