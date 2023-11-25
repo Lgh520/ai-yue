@@ -2,9 +2,8 @@ package com.project.aiyue.service;
 
 
 import com.github.pagehelper.PageInfo;
-import com.project.aiyue.dao.bo.BookRentWrapper;
+import com.project.aiyue.bo.BookRentWrapper;
 import com.project.aiyue.dao.po.BookInfo;
-import com.project.aiyue.dao.po.UserInfo;
 
 import java.util.List;
 

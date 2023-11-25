@@ -1,6 +1,6 @@
 package com.project.aiyue.dao.po;
 
-import com.project.aiyue.dao.bo.Page;
+import com.project.aiyue.bo.Page;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

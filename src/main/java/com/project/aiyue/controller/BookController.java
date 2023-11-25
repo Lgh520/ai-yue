@@ -3,12 +3,10 @@ package com.project.aiyue.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.project.aiyue.constant.ResponCodeConstant;
-import com.project.aiyue.dao.bo.BookRentWrapper;
+import com.project.aiyue.bo.BookRentWrapper;
 import com.project.aiyue.dao.po.BookInfo;
-import com.project.aiyue.dao.po.UserInfo;
 import com.project.aiyue.responor.CommonRespon;
 import com.project.aiyue.service.BookInfoService;
-import com.project.aiyue.service.UserInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
