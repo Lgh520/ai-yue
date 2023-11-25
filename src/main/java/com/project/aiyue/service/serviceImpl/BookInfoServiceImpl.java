@@ -1,18 +1,14 @@
 package com.project.aiyue.service.serviceImpl;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.project.aiyue.core.TransactionManagerService;
 import com.project.aiyue.dao.BookInfoMapper;
-import com.project.aiyue.dao.bo.BookRentWrapper;
+import com.project.aiyue.bo.BookRentWrapper;
 import com.project.aiyue.dao.po.BookInfo;
 import com.project.aiyue.exception.CommonException;
 import com.project.aiyue.service.BookInfoService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;

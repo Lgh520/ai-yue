@@ -1,44 +1,38 @@
 package com.project.aiyue.controller;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.project.aiyue.bo.ReqBO;
-import com.project.aiyue.dao.BookInfoMapper;
-import com.project.aiyue.dao.po.BookInfo;
+import com.project.aiyue.dao.SysParamMapper;
+import com.project.aiyue.dao.po.SysParam;
 import com.project.aiyue.responor.CommonRespon;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.xml.ws.Response;
+import org.springframework.web.bind.annotation.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
+@RequestMapping("/common")
 public class ClientController {
 
     @Autowired
-    private BookInfoMapper bookInfoMapper;
+    private SysParamMapper sysParamMapper;
 
-//    @GetMapping("/getInfo")
-//    @ResponseBody
-//    public String getInfo(){
-//        return "aspoifjwef";
-//    }
-
-    @GetMapping("/getInfo")
-    @ResponseBody
-    public CommonRespon<PageInfo<BookInfo>> getInfo(ReqBO reqBO){
-        ReqBO reqBO1 = new ReqBO();
-        reqBO1.setPageNum(1);
-        reqBO1.setPageSize(1);
-        PageHelper.startPage(reqBO1.getPageNum(),reqBO1.getPageSize());
-        List<BookInfo> bookInfos = bookInfoMapper.selectList();
-        CommonRespon<PageInfo<BookInfo>> success = CommonRespon.success(null);
-        return CommonRespon.success(new PageInfo<BookInfo>(bookInfos));
+    @PostMapping("/queryType")
+    @ApiOperation("查询年龄和主题类型分类")
+    public CommonRespon<Map<String,List<SysParam>>> queryType(){
+        Map<String,List<SysParam>> map = new HashMap<>();
+        SysParam param = new SysParam();
+        param.setParamCode("AGE_TYPE");
+        param.setParamKey("TYPE");
+        List<SysParam> sysParams = sysParamMapper.selectDict(param);
+        map.put("ageType",sysParams);
+        param.setParamCode("THEME_TYPE");
+        param.setParamKey("TYPE");
+        List<SysParam> sysParams2 = sysParamMapper.selectDict(param);
+        map.put("themeType",sysParams2);
+        return CommonRespon.success(map);
     }
 
 

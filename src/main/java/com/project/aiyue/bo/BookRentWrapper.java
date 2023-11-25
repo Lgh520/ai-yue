@@ -1,4 +1,4 @@
-package com.project.aiyue.dao.bo;
+package com.project.aiyue.bo;
 
 import lombok.Data;
 

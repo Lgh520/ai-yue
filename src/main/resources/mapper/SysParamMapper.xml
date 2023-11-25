@@ -7,6 +7,22 @@
     <result column="PARAM_VALUE" property="paramValue" jdbcType="VARCHAR" />
     <result column="PARAM_NAME" property="paramName" jdbcType="VARCHAR" />
   </resultMap>
+  <sql id="base_sql">
+    PARAM_CODE,PARAM_KEY,PARAM_VALUE,PARAM_NAME
+  </sql>
+  <select id="selectDict" parameterType="com.project.aiyue.dao.po.SysParam" resultMap="BaseResultMap">
+    select
+    <include refid="base_sql" />
+    from sys_param
+    <where>
+      <if test="null != paramCode and '' != paramCode">
+        PARAM_CODE = #{paramCode,jdbcType=VARCHAR}
+      </if>
+      <if test="null != paramKey and '' != paramKey">
+        PARAM_KEY = #{paramKey,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
   <insert id="insert" parameterType="com.project.aiyue.dao.po.SysParam" >
     insert into sys_param (PARAM_CODE, PARAM_KEY, PARAM_VALUE, 
       PARAM_NAME)
