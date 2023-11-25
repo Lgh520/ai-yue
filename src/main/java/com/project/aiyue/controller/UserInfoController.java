@@ -52,9 +52,9 @@ public class UserInfoController {
     @PostMapping ("/login")
     public CommonRespon login(@RequestBody @Valid UserInfo userInfo)  {
         try {
-            Boolean login = userInfoService.login(userInfo);
-            if(login){
-                return CommonRespon.success(null);
+            UserInfo info = userInfoService.login(userInfo);
+            if(info != null){
+                return CommonRespon.success(info);
             }
         }catch (Exception e){
             log.error("登录失败:{}",e.getMessage());

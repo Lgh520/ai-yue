@@ -3,6 +3,7 @@ package com.project.aiyue.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.project.aiyue.constant.ResponCodeConstant;
+import com.project.aiyue.dao.bo.BookRentWrapper;
 import com.project.aiyue.dao.po.BookInfo;
 import com.project.aiyue.dao.po.UserInfo;
 import com.project.aiyue.responor.CommonRespon;
@@ -75,13 +76,13 @@ public class BookController {
         }
         return  CommonRespon.error(ResponCodeConstant.ERROR_CODE,"新增图书失败，请重试");
     }
-    @PostMapping("/borrow")
+    @PostMapping("/{id}/borrow")
     @ApiOperation("图书借阅")
-    public CommonRespon Borrow(@RequestBody @Valid List<BookInfo> list)  {
+    public CommonRespon Borrow(@RequestBody @Valid List<BookInfo> list,@PathVariable String id)  {
         try {
-            Boolean borrow = bookInfoService.borrow(list);
-            if(borrow){
-                return CommonRespon.success(null);
+            List<BookRentWrapper> borrow = bookInfoService.borrow(list,id);
+            if(borrow != null){
+                return CommonRespon.success(borrow);
             }
         }catch (Exception e){
             e.printStackTrace();

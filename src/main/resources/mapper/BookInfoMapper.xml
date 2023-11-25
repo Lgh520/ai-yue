@@ -318,12 +318,22 @@
     <if test="themeType != null" >
       and THEME_TYPE = #{themeType,jdbcType=INTEGER}
     </if>
+    <if test="title != null" >
+      and TITLE like concat('%',#{title},'%')
+    </if>
   </select>
   <select id="getIdByIsbn" resultType="long">
     select BOOK_ID from book_info
     where ISBN_10 = #{isbn10} AND ISBN_13 = #{isbn13}
   </select>
-  <update id="updateBookCountById" keyColumn="">
+  <update id="addBookCountById">
     update book_info set BOOK_COUNTS = BOOK_COUNTS + #{count}, UPDATE_TIME = now() where BOOK_ID = #{id};
+  </update>
+  <update id="borrowBookById">
+    update book_info set BOOK_COUNTS = case
+    WHEN BOOK_COUNTS >= #{count} then BOOK_COUNTS - #{count}
+    else BOOK_COUNTS
+    end
+    WHERE BOOK_ID = #{id};
   </update>
 </mapper>

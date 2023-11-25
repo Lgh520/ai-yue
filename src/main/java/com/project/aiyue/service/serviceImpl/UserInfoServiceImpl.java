@@ -35,18 +35,15 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public Boolean login(UserInfo userInfo) {
+    public UserInfo login(UserInfo userInfo) {
         String userId = userInfo.getUserId();
-        UserInfo info = userInfoMapper.selectByPrimaryKey(userId);
-        if(info == null){
-            log.info("用户账号不存在，请重新输入");
-            throw new CommonException(-1,"用户账号不存在，请重新输入");
-        }
         String password = userInfo.getPassword();
         String s = SecurityUtil.enSecret(password, SecurityUtil.DEFAULT_KEY);
-        if(s.equals(info.getPassword())){
-            return true;
+        UserInfo info = userInfoMapper.login(userId,s);
+        if(info == null){
+            log.info("用户账号或密码错误，请重新输入");
+            throw new CommonException(-1,"用户账号或密码错误，请重新输入");
         }
-        return false;
+        return info;
     }
 }

@@ -1,9 +1,13 @@
 package com.project.aiyue.dao.po;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.io.Serializable;
 import java.util.Date;
 
-public class UserInfo implements Serializable {
+public class  UserInfo implements Serializable {
     private static final long serialVersionUID = -5465178824092002786L;
 
     private String userId;
@@ -13,6 +17,7 @@ public class UserInfo implements Serializable {
     private String password;
 
     private String userType;
+
 
     private String isLock;
 

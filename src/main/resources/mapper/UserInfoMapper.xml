@@ -19,6 +19,12 @@
     from user_info
     where USER_ID = #{userId,jdbcType=VARCHAR}
   </select>
+  <select id="login" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select USER_ID,USER_NAME,USER_TYPE
+    from user_info
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+    and PASSWORD = #{password,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from user_info
     where USER_ID = #{userId,jdbcType=VARCHAR}
