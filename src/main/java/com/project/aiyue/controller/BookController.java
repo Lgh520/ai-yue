@@ -21,7 +21,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/bookInfo")
-@Api(tags = "图书端后台服务接口")
+@Api(tags = "图书服务接口")
 public class BookController {
     @Autowired
     private BookInfoService bookInfoService;
