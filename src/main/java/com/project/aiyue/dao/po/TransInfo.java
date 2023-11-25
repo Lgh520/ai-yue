@@ -1,90 +1,28 @@
 package com.project.aiyue.dao.po;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
-
+@Data
+@ApiModel("流水表")
 public class TransInfo implements Serializable {
     private static final long serialVersionUID = -6925746940145729324L;
+    @ApiModelProperty("流水号")
     private Long transId;
-
+    @ApiModelProperty("订单号")
     private Long orderId;
-
+    @ApiModelProperty("流水金额")
     private String transMoney;
-
+    @ApiModelProperty("流水状态：A00-创建，A01-支付成功，A01-支付失败，B00-创建，B01-退款成功，B01-退款失败")
     private String transStatus;
-
+    @ApiModelProperty("流水类型：A-支付，B-退")
     private String transType;
-
+    @ApiModelProperty("创建时间")
     private Date createTime;
-
+    @ApiModelProperty("更新时间")
     private Date updateTime;
 
-    public Long getTransId() {
-        return transId;
-    }
-
-    public void setTransId(Long transId) {
-        this.transId = transId;
-    }
-
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
-    public String getTransMoney() {
-        return transMoney;
-    }
-
-    public void setTransMoney(String transMoney) {
-        this.transMoney = transMoney == null ? null : transMoney.trim();
-    }
-
-    public String getTransStatus() {
-        return transStatus;
-    }
-
-    public void setTransStatus(String transStatus) {
-        this.transStatus = transStatus == null ? null : transStatus.trim();
-    }
-
-    public String getTransType() {
-        return transType;
-    }
-
-    public void setTransType(String transType) {
-        this.transType = transType == null ? null : transType.trim();
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    @Override
-    public String toString() {
-        return "TransInfo{" +
-                "transId=" + transId +
-                ", orderId=" + orderId +
-                ", transMoney='" + transMoney + '\'' +
-                ", transStatus='" + transStatus + '\'' +
-                ", transType='" + transType + '\'' +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                '}';
-    }
 }

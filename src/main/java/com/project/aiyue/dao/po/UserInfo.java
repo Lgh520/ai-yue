@@ -3,94 +3,29 @@ package com.project.aiyue.dao.po;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
-
+@Data
+@ApiModel("用户信息表")
 public class  UserInfo implements Serializable {
     private static final long serialVersionUID = -5465178824092002786L;
-
+    @ApiModelProperty("用户ID（手机号）")
     private String userId;
-
+    @ApiModelProperty("用户名")
     private String userName;
-
+    @ApiModelProperty("密码")
     private String password;
-
+    @ApiModelProperty("用户类型：0-普通用户，1-管理员")
     private String userType;
-
-
+    @ApiModelProperty("是否上锁：0-未锁，1-上锁")
     private String isLock;
-
+    @ApiModelProperty("创建时间")
     private Date createTime;
-
+    @ApiModelProperty("更新时间")
     private Date updateTime;
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
-    public String getIsLock() {
-        return isLock;
-    }
-
-    public void setIsLock(String isLock) {
-        this.isLock = isLock;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    @Override
-    public String toString() {
-        return "UserInfo{" +
-                "userId='" + userId + '\'' +
-                ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", userType='" + userType + '\'' +
-                ", isLock='" + isLock + '\'' +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                '}';
-    }
 }

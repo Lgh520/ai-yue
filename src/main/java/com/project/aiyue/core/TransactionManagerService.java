@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionInterceptor;
 
 @Component
 @Slf4j
@@ -36,9 +37,12 @@ public class TransactionManagerService {
                 bookRent.setBookCount(bookInfo.getBookCounts());
                 bookRentMapper.insert(bookRent);
                 result.setRentSuccess(true);
+//                throw new Exception("");
                 return result;
             }
         }catch (Exception e){
+            //回滚数据
+            TransactionInterceptor.currentTransactionStatus().setRollbackOnly();
             log.info("借阅书记失败，请检查库存。bookId={}",bookInfo.getBookId());
             result.setRentSuccess(false);
         }

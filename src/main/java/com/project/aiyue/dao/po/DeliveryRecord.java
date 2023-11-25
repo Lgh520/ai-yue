@@ -1,90 +1,28 @@
 package com.project.aiyue.dao.po;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
-
+@Data
+@ApiModel("配送记录")
 public class DeliveryRecord implements Serializable {
     private static final long serialVersionUID = 5252705374089147219L;
+    @ApiModelProperty("主键")
     private Long deliveryId;
-
+    @ApiModelProperty("书籍借阅ID")
     private Long rentId;
-
+    @ApiModelProperty("配送用户ID")
     private String deliveryUser;
-
+    @ApiModelProperty("配送状态：1-已接单，2-配送中，3-配送完成")
     private String deliveryStatus;
-
+    @ApiModelProperty("配送时间（分）")
     private String deliveryTime;
-
+    @ApiModelProperty("创建时间")
     private Date createTime;
-
+    @ApiModelProperty("更新时间")
     private Date updateTime;
 
-    public Long getDeliveryId() {
-        return deliveryId;
-    }
-
-    public void setDeliveryId(Long deliveryId) {
-        this.deliveryId = deliveryId;
-    }
-
-    public Long getRentId() {
-        return rentId;
-    }
-
-    public void setRentId(Long rentId) {
-        this.rentId = rentId;
-    }
-
-    public String getDeliveryUser() {
-        return deliveryUser;
-    }
-
-    public void setDeliveryUser(String deliveryUser) {
-        this.deliveryUser = deliveryUser == null ? null : deliveryUser.trim();
-    }
-
-    public String getDeliveryStatus() {
-        return deliveryStatus;
-    }
-
-    public void setDeliveryStatus(String deliveryStatus) {
-        this.deliveryStatus = deliveryStatus == null ? null : deliveryStatus.trim();
-    }
-
-    public String getDeliveryTime() {
-        return deliveryTime;
-    }
-
-    public void setDeliveryTime(String deliveryTime) {
-        this.deliveryTime = deliveryTime == null ? null : deliveryTime.trim();
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    @Override
-    public String toString() {
-        return "DeliveryRecord{" +
-                "deliveryId=" + deliveryId +
-                ", rentId=" + rentId +
-                ", deliveryUser='" + deliveryUser + '\'' +
-                ", deliveryStatus='" + deliveryStatus + '\'' +
-                ", deliveryTime='" + deliveryTime + '\'' +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                '}';
-    }
 }

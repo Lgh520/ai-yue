@@ -1,90 +1,28 @@
 package com.project.aiyue.dao.po;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
-
+@Data
+@ApiModel("订单")
 public class OrderInfo implements Serializable {
     private static final long serialVersionUID = -5894159218018339456L;
+    @ApiModelProperty("订单号")
     private Long orderId;
-
+    @ApiModelProperty("订单金额")
     private Long orderMoney;
-
+    @ApiModelProperty("用户ID")
     private String userId;
-
+    @ApiModelProperty("订单状态：A00-创建，A01-支付成功，A01-支付失败，B00-创建，B01-退款成功，B01-退款失败")
     private String orderStatus;
-
+    @ApiModelProperty("订单类型：A-支付，B-退款")
     private String orderType;
-
+    @ApiModelProperty("创建时间")
     private Date createTime;
-
+    @ApiModelProperty("更新时间")
     private Date updateTime;
 
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
-    public Long getOrderMoney() {
-        return orderMoney;
-    }
-
-    public void setOrderMoney(Long orderMoney) {
-        this.orderMoney = orderMoney;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId == null ? null : userId.trim();
-    }
-
-    public String getOrderStatus() {
-        return orderStatus;
-    }
-
-    public void setOrderStatus(String orderStatus) {
-        this.orderStatus = orderStatus == null ? null : orderStatus.trim();
-    }
-
-    public String getOrderType() {
-        return orderType;
-    }
-
-    public void setOrderType(String orderType) {
-        this.orderType = orderType == null ? null : orderType.trim();
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    @Override
-    public String toString() {
-        return "OrderInfo{" +
-                "orderId=" + orderId +
-                ", orderMoney=" + orderMoney +
-                ", userId='" + userId + '\'' +
-                ", orderStatus='" + orderStatus + '\'' +
-                ", orderType='" + orderType + '\'' +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                '}';
-    }
 }

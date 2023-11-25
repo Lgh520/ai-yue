@@ -1,100 +1,29 @@
 package com.project.aiyue.dao.po;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
-
+@Data
+@ApiModel("用户收货地址")
 public class ConsigeAddress implements Serializable {
+    @ApiModelProperty("主键")
     private Integer consignId;
-
+    @ApiModelProperty("用户ID（手机号）")
     private String userId;
-
+    @ApiModelProperty("收货地址")
     private String address;
-
+    @ApiModelProperty("收货人")
     private String consignee;
-
+    @ApiModelProperty("收货人号码")
     private String consigneePhone;
-
+    @ApiModelProperty("备注")
     private String remark;
-
+    @ApiModelProperty("创建时间")
     private Date createTime;
-
+    @ApiModelProperty("更新时间")
     private Date updateTime;
 
-    public Integer getConsignId() {
-        return consignId;
-    }
-
-    public void setConsignId(Integer consignId) {
-        this.consignId = consignId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId == null ? null : userId.trim();
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
-    }
-
-    public String getConsignee() {
-        return consignee;
-    }
-
-    public void setConsignee(String consignee) {
-        this.consignee = consignee == null ? null : consignee.trim();
-    }
-
-    public String getConsigneePhone() {
-        return consigneePhone;
-    }
-
-    public void setConsigneePhone(String consigneePhone) {
-        this.consigneePhone = consigneePhone == null ? null : consigneePhone.trim();
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    @Override
-    public String toString() {
-        return "ConsigeAddress{" +
-                "consignId=" + consignId +
-                ", userId='" + userId + '\'' +
-                ", address='" + address + '\'' +
-                ", consignee='" + consignee + '\'' +
-                ", consigneePhone='" + consigneePhone + '\'' +
-                ", remark='" + remark + '\'' +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                '}';
-    }
 }
