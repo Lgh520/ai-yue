@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.aiyue.dao.ReadPlanVipMapper" >
+  <resultMap id="BaseResultMap" type="com.project.aiyue.dao.po.ReadPlanVip" >
+    <id column="VIP_ID" property="vipId" jdbcType="BIGINT" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="DEPOSIT" property="deposit" jdbcType="VARCHAR" />
+    <result column="READ_PLAN_MONEY" property="readPlanMoney" jdbcType="VARCHAR" />
+    <result column="PER_RENT_COUNT" property="perRentCount" jdbcType="INTEGER" />
+    <result column="PERIOD_OF_VALIDITY" property="periodOfValidity" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    VIP_ID, TITLE, DEPOSIT, READ_PLAN_MONEY, PER_RENT_COUNT, PERIOD_OF_VALIDITY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from read_plan_vip
+    where VIP_ID = #{vipId,jdbcType=BIGINT}
+  </select>
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.project.aiyue.dao.po.ReadPlanVip" >
+    select
+    <include refid="Base_Column_List" />
+    from read_plan_vip
+    <where>
+      <if test="null != vipId and '' != vipId">
+        VIP_ID = #{vipId,jdbcType=BIGINT}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from read_plan_vip
+    where VIP_ID = #{vipId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.project.aiyue.dao.po.ReadPlanVip" >
+    insert into read_plan_vip (VIP_ID, TITLE, DEPOSIT, 
+      READ_PLAN_MONEY, PER_RENT_COUNT, PERIOD_OF_VALIDITY
+      )
+    values (#{vipId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{deposit,jdbcType=VARCHAR}, 
+      #{readPlanMoney,jdbcType=VARCHAR}, #{perRentCount,jdbcType=INTEGER}, #{periodOfValidity,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.project.aiyue.dao.po.ReadPlanVip" >
+    insert into read_plan_vip
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="vipId != null" >
+        VIP_ID,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="deposit != null" >
+        DEPOSIT,
+      </if>
+      <if test="readPlanMoney != null" >
+        READ_PLAN_MONEY,
+      </if>
+      <if test="perRentCount != null" >
+        PER_RENT_COUNT,
+      </if>
+      <if test="periodOfValidity != null" >
+        PERIOD_OF_VALIDITY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="vipId != null" >
+        #{vipId,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="deposit != null" >
+        #{deposit,jdbcType=VARCHAR},
+      </if>
+      <if test="readPlanMoney != null" >
+        #{readPlanMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="perRentCount != null" >
+        #{perRentCount,jdbcType=INTEGER},
+      </if>
+      <if test="periodOfValidity != null" >
+        #{periodOfValidity,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.project.aiyue.dao.po.ReadPlanVip" >
+    update read_plan_vip
+    <set >
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="deposit != null" >
+        DEPOSIT = #{deposit,jdbcType=VARCHAR},
+      </if>
+      <if test="readPlanMoney != null" >
+        READ_PLAN_MONEY = #{readPlanMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="perRentCount != null" >
+        PER_RENT_COUNT = #{perRentCount,jdbcType=INTEGER},
+      </if>
+      <if test="periodOfValidity != null" >
+        PERIOD_OF_VALIDITY = #{periodOfValidity,jdbcType=INTEGER},
+      </if>
+    </set>
+    where VIP_ID = #{vipId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.project.aiyue.dao.po.ReadPlanVip" >
+    update read_plan_vip
+    set TITLE = #{title,jdbcType=VARCHAR},
+      DEPOSIT = #{deposit,jdbcType=VARCHAR},
+      READ_PLAN_MONEY = #{readPlanMoney,jdbcType=VARCHAR},
+      PER_RENT_COUNT = #{perRentCount,jdbcType=INTEGER},
+      PERIOD_OF_VALIDITY = #{periodOfValidity,jdbcType=INTEGER}
+    where VIP_ID = #{vipId,jdbcType=BIGINT}
+  </update>
+</mapper>
