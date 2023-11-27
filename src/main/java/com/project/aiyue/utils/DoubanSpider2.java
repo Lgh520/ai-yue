@@ -111,10 +111,9 @@ public class DoubanSpider2 {
         }
         return;
     }
-    public static void main(String[] args) throws Exception {
 
-//        String html = getHtmlByUrl("https://book.douban.com/top250?start=225");
-        String html = getHtmlByUrl("https://search.douban.com/book/subject_search?search_text=9787020025862&cat=1001");
+    public static void test(){
+                String html = getHtmlByUrl("https://book.douban.com/top250?start=225");
         if (html != null && !"".equals(html)) {
             Document doc = Jsoup.parse(html);
 
@@ -164,10 +163,8 @@ public class DoubanSpider2 {
                 infourls[kase++] = linkHref;
             }
 
-            for (int i = 0; i < 1; ++i) {
+            for (int i = 0; i < 25; ++i) {
 //                mysqlinsert(names[i],ratings[i],quotes[i],imgurls[i],infourls[i]);
-//                String html123 = getHtmlByUrl("https://book.douban.com/top250?start=225");
-
                 System.out.println(i + 1);
                 System.out.println("书名 " + names[i] + " ");
                 System.out.println("评分为 " + ratings[i] + " ");
@@ -176,5 +173,81 @@ public class DoubanSpider2 {
                 System.out.println("图书信息链接 " + infourls[i] + " ");
             }
         }
+    }
+
+    public static void test1(){
+        String html = getHtmlByUrl("https://search.douban.com/book/subject_search?search_text=9787020025862");
+        if (html != null && !"".equals(html)) {
+            Document doc = Jsoup.parse(html);
+
+            String[] names = new String[100];
+            String[] quotes = new String[100];
+            String[] titleText = new String[100];
+            String[] imgurls = new String[100];
+            float[] ratings = new float[100];
+            String[] infourls = new String[100];
+
+            int kase = 0;
+            kase = 0;
+            Elements titles = doc.getElementsByTag("a");
+            for(Element elem:titles){
+                String title = elem.attr("title");
+                if(title != null && title != ""){
+//                    System.out.println(title);
+                    names[kase++] = title;
+                }
+            }
+            kase = 0;
+            Elements rating_num = doc.getElementsByClass("rating_nums");
+            for(Element rating:rating_num){
+                float num = Float.parseFloat(rating.text());
+//                System.out.println(num);
+                ratings[kase++] = num;
+            }
+            kase = 0;
+            Elements quos = doc.select("p.quote");
+            for(Element quo:quos){
+                String text = quo.text();
+//                System.out.println(text);
+                quotes[kase++] = text;
+            }
+            kase = 0;
+            Elements titleTexte = doc.select("cover-link");
+            for(Element quo:titleTexte){
+                String linkHref = quo.attr("href");
+//                System.out.println(text);
+                titleText[kase++] = linkHref;
+            }
+            kase = 0;
+            Elements links = doc.select("[width=90]");
+            for(Element link:links){
+                String linkHref = link.attr("src");
+//                System.out.println(linkHref);
+                imgurls[kase++] = linkHref;
+            }
+            kase = 0;
+            Elements infolinks = doc.select("a.nbg");
+            for(Element link:infolinks){
+                String linkHref = link.attr("href");
+//                System.out.println(linkHref);
+                infourls[kase++] = linkHref;
+            }
+
+            for (int i = 0; i < 1; ++i) {
+                System.out.println(titleText);
+                System.out.println(i + 1);
+                System.out.println("书名 " + names[i] + " ");
+                System.out.println("评分为 " + ratings[i] + " ");
+                System.out.println("一句话影评 " + quotes[i] + " ");
+                System.out.println("海报链接 " + imgurls[i] + " ");
+                System.out.println("图书信息链接 " + infourls[i] + " ");
+            }
+        }
+    }
+    public static void main(String[] args) throws Exception {
+//        test();
+        test1();
+
+
     }
 }
