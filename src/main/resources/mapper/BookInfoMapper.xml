@@ -62,7 +62,7 @@
       #{binding,jdbcType=VARCHAR}, #{pages,jdbcType=VARCHAR}, #{imageMedium,jdbcType=VARCHAR}, 
       #{imageLarge,jdbcType=VARCHAR}, #{publisher,jdbcType=VARCHAR}, #{isbn10,jdbcType=VARCHAR}, 
       #{isbn13,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, 
-      #{price,jdbcType=VARCHAR}, 1, 0,
+      #{price,jdbcType=VARCHAR}, #{bookCounts,jdbcType=VARCHAR}, 0,
       #{goodsId,jdbcType=BIGINT}, now(),now(),
       #{ageType,jdbcType=VARCHAR}, #{themeType,jdbcType=VARCHAR},0
       )

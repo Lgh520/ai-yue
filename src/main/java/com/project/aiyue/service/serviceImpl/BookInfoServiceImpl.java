@@ -28,7 +28,11 @@ public class BookInfoServiceImpl implements BookInfoService {
     public PageInfo<BookInfo> getList(BookInfo bookInfo) {
         if (bookInfo == null) {
             bookInfo.setPageSize(10);
-            bookInfo.setPageNum(0);
+            bookInfo.setPageNum(1);
+        }
+        if (bookInfo.getPageNum() == null || bookInfo.getPageSize() == null) {
+            bookInfo.setPageSize(10);
+            bookInfo.setPageNum(1);
         }
         PageHelper.startPage(bookInfo.getPageNum(), bookInfo.getPageSize());
         List<BookInfo> list = bookInfoMapper.getList(bookInfo);
