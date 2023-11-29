@@ -245,8 +245,8 @@ public class DoubanSpider2 {
         }
     }
     public static void main(String[] args) throws Exception {
-//        test();
-        test1();
+        test();
+//        test1();
 
 
     }
