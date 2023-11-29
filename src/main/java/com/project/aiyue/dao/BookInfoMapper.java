@@ -21,6 +21,7 @@ public interface BookInfoMapper {
 
     int updateByPrimaryKey(BookInfo record);
     List<BookInfo> getList(BookInfo bookInfo);
+    List<BookInfo> search(String name);
     List<BookInfo> getNewlyBook();
 
     Long getIdByIsbn(String isbn10,String isbn13);

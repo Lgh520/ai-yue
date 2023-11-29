@@ -310,6 +310,10 @@
       THEME_TYPE = #{themeType,jdbcType=VARCHAR}
     where BOOK_ID = #{bookId,jdbcType=BIGINT}
   </update>
+  <select id="search" resultMap="BaseResultMap">
+    select BOOK_ID,TITLE,IMAGE_MEDIUM from book_info
+    where TITLE like concat('%',#{name},'%') or AUTHOR like concat('%',#{name},'%')
+  </select>
   <select id="getList" resultMap="BaseResultMap" parameterType="com.project.aiyue.dao.po.BookInfo">
     select BOOK_ID,TITLE,IMAGE_MEDIUM from book_info
     where 1 = 1
@@ -331,7 +335,6 @@
     <if test="orderBy == 3" >
     ORDER BY CREATE_TIME DESC
     </if>
-
   </select>
   <select id="getIdByIsbn" resultType="long">
     select BOOK_ID from book_info

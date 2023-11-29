@@ -2,6 +2,7 @@ package com.project.aiyue.service.serviceImpl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.project.aiyue.bo.SearchWrapper;
 import com.project.aiyue.core.TransactionManagerService;
 import com.project.aiyue.dao.BookInfoMapper;
 import com.project.aiyue.bo.BookRentWrapper;
@@ -15,6 +16,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -26,7 +28,8 @@ public class BookInfoServiceImpl implements BookInfoService {
 
     @Override
     public PageInfo<BookInfo> getList(BookInfo bookInfo) {
-        if (bookInfo == null) {
+        if (Objects.isNull(bookInfo)) {
+            bookInfo = new BookInfo();
             bookInfo.setPageSize(10);
             bookInfo.setPageNum(1);
         }
@@ -103,5 +106,21 @@ public class BookInfoServiceImpl implements BookInfoService {
     public List<BookInfo> getNewlyBook() {
         List<BookInfo> newlyBook = bookInfoMapper.getNewlyBook();
         return newlyBook;
+    }
+
+    @Override
+    public PageInfo<BookInfo> search(SearchWrapper searchWrapper) {
+        PageInfo<BookInfo> result = new PageInfo<BookInfo>();
+        if(searchWrapper.getName() == null){
+            return getList(null);
+        }
+        if (searchWrapper.getPageNum() == null || searchWrapper.getPageSize() == null) {
+            searchWrapper.setPageSize(10);
+            searchWrapper.setPageNum(1);
+        }
+        PageHelper.startPage(searchWrapper.getPageNum(), searchWrapper.getPageSize());
+        List<BookInfo> search = bookInfoMapper.search(searchWrapper.getName());
+        result.setList(search);
+        return result;
     }
 }

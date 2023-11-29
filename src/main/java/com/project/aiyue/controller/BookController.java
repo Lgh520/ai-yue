@@ -2,6 +2,7 @@ package com.project.aiyue.controller;
 
 
 import com.github.pagehelper.PageInfo;
+import com.project.aiyue.bo.SearchWrapper;
 import com.project.aiyue.constant.ResponCodeConstant;
 import com.project.aiyue.bo.BookRentWrapper;
 import com.project.aiyue.dao.po.BookInfo;
@@ -124,7 +125,28 @@ public class BookController {
             log.info("获取最新上架图书：{}", e.getMessage());
             return CommonRespon.error(ResponCodeConstant.ERROR_CODE, e.getMessage());
         }
-        return CommonRespon.error(ResponCodeConstant.ERROR_CODE, "获取最新上架图书，请重试");
+        return CommonRespon.error(ResponCodeConstant.ERROR_CODE, "获取最新上架图书失败，请重试");
     }
-
+    @PostMapping("/search")
+    @ApiOperation("图书查询")
+    public CommonRespon<PageInfo<BookInfo>> search(@RequestBody SearchWrapper searchWrapper) {
+        try {
+            PageInfo<BookInfo> result = bookInfoService.search(searchWrapper);
+            if (result != null) {
+                if (!CollectionUtils.isEmpty(result.getList())) {
+                    result.getList().forEach(o -> {
+                        if (6 < o.getTitle().length()) {
+                            o.setTitle(o.getTitle().substring(0, 6) + "...");
+                        }
+                    });
+                    return CommonRespon.success(result);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("图书查询：{}", e.getMessage());
+            return CommonRespon.error(ResponCodeConstant.ERROR_CODE, e.getMessage());
+        }
+        return CommonRespon.error(ResponCodeConstant.ERROR_CODE, "图书查询失败，请重试");
+    }
 }
