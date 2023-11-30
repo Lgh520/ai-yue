@@ -20,6 +20,12 @@
     from consige_address
     where CONSIGN_ID = #{consignId,jdbcType=INTEGER}
   </select>
+  <select id="selectByUserId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from consige_address
+    where USER_ID = #{selectByUserId,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from consige_address
     where CONSIGN_ID = #{consignId,jdbcType=INTEGER}
@@ -30,7 +36,7 @@
       CREATE_TIME, UPDATE_TIME)
     values (#{consignId,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{consignee,jdbcType=VARCHAR}, #{consigneePhone,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      #{createTimeStr,jdbcType=TIMESTAMP}, #{updateTimeStr,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.project.aiyue.dao.po.ConsigeAddress" >
     insert into consige_address
@@ -108,8 +114,8 @@
       <if test="createTime != null" >
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateTime != null" >
-        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      <if test="updateTimeStr != null" >
+        UPDATE_TIME = #{updateTimeStr,jdbcType=TIMESTAMP},
       </if>
     </set>
     where CONSIGN_ID = #{consignId,jdbcType=INTEGER}

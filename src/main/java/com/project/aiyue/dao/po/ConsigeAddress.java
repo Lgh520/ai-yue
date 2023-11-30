@@ -23,7 +23,11 @@ public class ConsigeAddress implements Serializable {
     private String remark;
     @ApiModelProperty("创建时间")
     private Date createTime;
+    @ApiModelProperty("创建时间")
+    private String createTimeStr;
     @ApiModelProperty("更新时间")
     private Date updateTime;
+    @ApiModelProperty("更新时间")
+    private String updateTimeStr;
 
 }
