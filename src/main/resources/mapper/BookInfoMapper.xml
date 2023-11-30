@@ -326,6 +326,9 @@
     <if test="title != null" >
       and TITLE like concat('%',#{title},'%')
     </if>
+    <if test="text != null" >
+      and (TITLE like concat('%',#{text},'%') or ISBN_13 = #{text,jdbcType=VARCHAR} or AUTHOR = #{text,jdbcType=VARCHAR})
+    </if>
     <if test="orderBy == 1" >
     ORDER BY RENT_COUNTS DESC
     </if>

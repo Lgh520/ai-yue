@@ -62,5 +62,6 @@ public class BookInfo extends Page implements Serializable {
     private String themeType;
     @ApiModelProperty("排序方式")
     private Integer orderBy;
-
+    @ApiModelProperty("模糊查询字段")
+    private String text;
 }
