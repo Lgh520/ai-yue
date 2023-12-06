@@ -27,5 +27,7 @@ public class  UserInfo implements Serializable {
     private Date createTime;
     @ApiModelProperty("更新时间")
     private Date updateTime;
+    @ApiModelProperty("vip卡信息")
+    private ReadPlanVip readPlanVip;
 
 }

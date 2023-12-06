@@ -9,6 +9,8 @@ public interface TransInfoMapper {
 
     int insert(TransInfo record);
 
+    int insertNew(TransInfo record);
+
     int insertSelective(TransInfo record);
 
     TransInfo selectByPrimaryKey(Long transId);

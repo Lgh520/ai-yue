@@ -9,6 +9,8 @@ public interface OrderInfoMapper {
 
     int insert(OrderInfo record);
 
+    long insertNew(OrderInfo record);
+
     int insertSelective(OrderInfo record);
 
     OrderInfo selectByPrimaryKey(Long orderId);

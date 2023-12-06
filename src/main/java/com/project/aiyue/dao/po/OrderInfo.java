@@ -24,5 +24,9 @@ public class OrderInfo implements Serializable {
     private Date createTime;
     @ApiModelProperty("更新时间")
     private Date updateTime;
+    @ApiModelProperty("创建时间")
+    private String createTimeStr;
+    @ApiModelProperty("更新时间")
+    private String updateTimeStr;
 
 }

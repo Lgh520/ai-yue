@@ -31,6 +31,14 @@
       #{transStatus,jdbcType=VARCHAR}, #{transType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
+  <insert id="insertNew" parameterType="com.project.aiyue.dao.po.TransInfo" >
+    insert into trans_info (TRANS_ID, ORDER_ID, TRANS_MONEY,
+      TRANS_STATUS, TRANS_TYPE, CREATE_TIME,
+      UPDATE_TIME)
+    values (#{transId,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{transMoney,jdbcType=VARCHAR},
+      #{transStatus,jdbcType=VARCHAR}, #{transType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
   <insert id="insertSelective" parameterType="com.project.aiyue.dao.po.TransInfo" >
     insert into trans_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
