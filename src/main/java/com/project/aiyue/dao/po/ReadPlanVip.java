@@ -3,7 +3,7 @@ package com.project.aiyue.dao.po;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel("图书信息")
+@ApiModel("vip卡信息")
 public class ReadPlanVip {
     @ApiModelProperty("VIPid")
     private Long vipId;
