@@ -35,9 +35,9 @@ public class TransactionManagerService {
                 bookRent.setBookId(bookInfo.getBookId());
                 bookRent.setIsBack(CommonConstant.BOOK_RENT_NOT_BACK);
                 bookRent.setBookCount(bookInfo.getBookCounts());
-                bookRentMapper.insert(bookRent);
+                Long insert = bookRentMapper.insert(bookRent);
+                result.setRentId(bookRent.getRentId());
                 result.setRentSuccess(true);
-//                throw new Exception("");
                 return result;
             }
         }catch (Exception e){

@@ -61,6 +61,10 @@ public class UserInfoServiceImpl implements UserInfoService {
             log.info("用户账号或密码错误，请重新输入");
             throw new CommonException(-1,"用户账号或密码错误，请重新输入");
         }
+        if(info.getIsLock() != "0"){
+            log.info("请先购买vip卡或续费vip卡");
+            throw new CommonException(-1,"请先购买vip卡或续费vip卡");
+        }
         return info;
     }
 

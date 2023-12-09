@@ -44,7 +44,8 @@ public class ReadPlanVip {
     }
 
     public void setDeposit(String deposit) {
-        this.deposit = deposit == null ? null : deposit.trim();
+        this.deposit
+                = deposit == null ? null : deposit.trim();
     }
 
     public String getReadPlanMoney() {

@@ -13,7 +13,7 @@ public class DeliveryRecord implements Serializable {
     @ApiModelProperty("主键")
     private Long deliveryId;
     @ApiModelProperty("书籍借阅ID")
-    private Long rentId;
+    private String rentId;
     @ApiModelProperty("配送用户ID")
     private String deliveryUser;
     @ApiModelProperty("配送状态：0-未配送, 1-已接单，2-配送中，3-配送完成")

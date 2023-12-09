@@ -9,9 +9,11 @@
     <result column="IS_LOCK" property="isLock" jdbcType="VARCHAR" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="VIP_ID" property="vipID" jdbcType="BIGINT" />
+    <result column="VIP_END_TIME" property="vipEndTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    USER_ID, USER_NAME, PASSWORD, USER_TYPE, IS_LOCK, CREATE_TIME, UPDATE_TIME
+    USER_ID, USER_NAME, PASSWORD, USER_TYPE, IS_LOCK, CREATE_TIME, UPDATE_TIME,VIP_ID,VIP_END_TIME
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -20,7 +22,7 @@
     where USER_ID = #{userId,jdbcType=VARCHAR}
   </select>
   <select id="login" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select USER_ID,USER_NAME,USER_TYPE
+    select USER_ID,USER_NAME,USER_TYPE,IS_LOCK
     from user_info
     where USER_ID = #{userId,jdbcType=VARCHAR}
     and PASSWORD = #{password,jdbcType=VARCHAR}
@@ -34,7 +36,7 @@
       USER_TYPE, IS_LOCK, CREATE_TIME, 
       UPDATE_TIME)
     values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-     0, 0, now(), now())
+     0, 2, now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.project.aiyue.dao.po.UserInfo" >
     insert into user_info

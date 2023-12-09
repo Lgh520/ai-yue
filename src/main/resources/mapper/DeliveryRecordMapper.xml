@@ -3,7 +3,7 @@
 <mapper namespace="com.project.aiyue.dao.DeliveryRecordMapper" >
   <resultMap id="BaseResultMap" type="com.project.aiyue.dao.po.DeliveryRecord" >
     <id column="DELIVERY_ID" property="deliveryId" jdbcType="BIGINT" />
-    <result column="RENT_ID" property="rentId" jdbcType="BIGINT" />
+    <result column="RENT_ID" property="rentId" jdbcType="VARCHAR" />
     <result column="DELIVERY_USER" property="deliveryUser" jdbcType="VARCHAR" />
     <result column="DELIVERY_STATUS" property="deliveryStatus" jdbcType="VARCHAR" />
     <result column="DELIVERY_TIME" property="deliveryTime" jdbcType="VARCHAR" />
@@ -28,9 +28,8 @@
     insert into delivery_record (DELIVERY_ID, RENT_ID, DELIVERY_USER, 
       DELIVERY_STATUS, DELIVERY_TIME, CREATE_TIME, 
       UPDATE_TIME)
-    values (#{deliveryId,jdbcType=BIGINT}, #{rentId,jdbcType=BIGINT}, #{deliveryUser,jdbcType=VARCHAR}, 
-      #{deliveryStatus,jdbcType=VARCHAR}, #{deliveryTime,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+    values (#{deliveryId,jdbcType=BIGINT}, #{rentId,jdbcType=VARCHAR}, #{deliveryUser,jdbcType=VARCHAR},
+      0, #{deliveryTime,jdbcType=VARCHAR}, now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.project.aiyue.dao.po.DeliveryRecord" >
     insert into delivery_record

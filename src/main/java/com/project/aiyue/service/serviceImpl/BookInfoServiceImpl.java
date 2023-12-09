@@ -1,22 +1,29 @@
 package com.project.aiyue.service.serviceImpl;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.util.DateUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.project.aiyue.bo.SearchWrapper;
 import com.project.aiyue.core.TransactionManagerService;
-import com.project.aiyue.dao.BookInfoMapper;
+import com.project.aiyue.dao.*;
 import com.project.aiyue.bo.BookRentWrapper;
-import com.project.aiyue.dao.po.BookInfo;
+import com.project.aiyue.dao.po.*;
 import com.project.aiyue.exception.CommonException;
 import com.project.aiyue.service.BookInfoService;
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.helper.DataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -25,7 +32,14 @@ public class BookInfoServiceImpl implements BookInfoService {
     private BookInfoMapper bookInfoMapper;
     @Autowired
     private TransactionManagerService transactionManagerService;
-
+    @Autowired
+    private DeliveryRecordMapper deliveryRecordMapper;
+    @Autowired
+    private ReadPlanVipMapper readPlanVipMapper;
+    @Autowired
+    private UserInfoMapper userInfoMapper;
+    @Autowired
+    private BookRentMapper bookRentMapper;
     @Override
     public PageInfo<BookInfo> getList(BookInfo bookInfo) {
         if (Objects.isNull(bookInfo)) {
@@ -95,9 +109,37 @@ public class BookInfoServiceImpl implements BookInfoService {
             log.info("借阅图书不能为空");
             throw new CommonException(-1, "借阅图书不能为空");
         }
+        //判断用户是否可以借阅
+        UserInfo info = userInfoMapper.selectByPrimaryKey(userId);
+        if(Objects.isNull(info)){
+            log.info("用户={}不存在",userId);
+            throw new CommonException(-1,"用户不存在");
+        }
+        List<BookRent> bookRents = bookRentMapper.noReturnBooKByUserId(userId);
+        if(!CollectionUtils.isEmpty(bookRents)){
+            throw new CommonException(-1,"请先把上次借阅的书归还哦！");
+        }
+        Date vipEndTime = info.getVipEndTime();
+        if(vipEndTime.before(new Date())){
+            throw new CommonException(-1,"vip卡已到期啦，请重新购买！");
+        }
+        int sum = list.stream().mapToInt(e -> e.getBookCounts()).sum();
+        ReadPlanVip readPlanVip = readPlanVipMapper.selectByPrimaryKey(info.getVipID());
+        if(sum > readPlanVip.getPerRentCount()){
+            throw new CommonException(-1,"当前只能借阅"+readPlanVip.getPerRentCount()+"本哦。");
+        }
         for (BookInfo bookInfo : list){
             BookRentWrapper bookRentWrapper = transactionManagerService.borrowBook(bookInfo, userId);
             result.add(bookRentWrapper);
+        }
+        //有借阅成功的书籍就插入一条未接单的配送信息
+        List<BookRentWrapper> successBook = result.stream().filter(e -> e.getRentSuccess()).collect(Collectors.toList());
+        if(!CollectionUtils.isEmpty(successBook)){
+            List<Long> rentIds = new ArrayList<>();
+            successBook.stream().forEach(e->rentIds.add(e.getRentId()));
+            DeliveryRecord deliveryRecord = new DeliveryRecord();
+            deliveryRecord.setRentId(JSON.toJSONString(rentIds));
+            deliveryRecordMapper.insert(deliveryRecord);
         }
         return result;
     }

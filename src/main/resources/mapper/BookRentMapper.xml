@@ -23,11 +23,11 @@
     delete from book_rent
     where RENT_ID = #{rentId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.project.aiyue.dao.po.BookRent" >
-    insert into book_rent (RENT_ID, USER_ID, BOOK_ID, 
+  <insert id="insert" parameterType="com.project.aiyue.dao.po.BookRent" useGeneratedKeys="true" keyProperty="rentId">
+    insert into book_rent (USER_ID, BOOK_ID,
       IS_BACK, CREATE_TIME, UPDATE_TIME,BOOK_COUNT
       )
-    values (#{rentId,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{bookId,jdbcType=BIGINT}, 
+    values (#{userId,jdbcType=VARCHAR}, #{bookId,jdbcType=BIGINT},
       #{isBack,jdbcType=VARCHAR}, now(), now(),#{bookCount,jdbcType=INTEGER}
       )
   </insert>
@@ -104,4 +104,7 @@
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
     where RENT_ID = #{rentId,jdbcType=BIGINT}
   </update>
+  <select id="noReturnBooKByUserId" resultMap="BaseResultMap">
+    select * from book_rent where USER_ID = #{userId} and IS_BACK = 0
+  </select>
 </mapper>
