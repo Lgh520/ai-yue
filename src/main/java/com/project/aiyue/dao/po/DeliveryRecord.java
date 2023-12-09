@@ -16,7 +16,7 @@ public class DeliveryRecord implements Serializable {
     private Long rentId;
     @ApiModelProperty("配送用户ID")
     private String deliveryUser;
-    @ApiModelProperty("配送状态：1-已接单，2-配送中，3-配送完成")
+    @ApiModelProperty("配送状态：0-未配送, 1-已接单，2-配送中，3-配送完成")
     private String deliveryStatus;
     @ApiModelProperty("配送时间（分）")
     private String deliveryTime;
