@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.aiyue.dao.BookBagMapper" >
+  <resultMap id="BaseResultMap" type="com.project.aiyue.dao.po.BookBag" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="BOOK_ID" property="bookId" jdbcType="BIGINT" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="BOOK_COUNT" property="bookCount" jdbcType="INTEGER" />
+    <result column="TITLE" property="bookName" jdbcType="VARCHAR" />
+    <result column="IMAGE_MEDIUM" property="imageMedium" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, USER_ID, BOOK_ID, CREATE_TIME, UPDATE_TIME, BOOK_COUNT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from book_bag
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from book_bag
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.project.aiyue.dao.po.BookBag" >
+    insert into book_bag (ID, USER_ID, BOOK_ID, 
+      CREATE_TIME, UPDATE_TIME, BOOK_COUNT
+      )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{bookId,jdbcType=BIGINT}, 
+      now(),now(), 1
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.project.aiyue.dao.po.BookBag" >
+    insert into book_bag
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="bookId != null" >
+        BOOK_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="bookCount != null" >
+        BOOK_COUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="bookId != null" >
+        #{bookId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bookCount != null" >
+        #{bookCount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.project.aiyue.dao.po.BookBag" >
+    update book_bag
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="bookId != null" >
+        BOOK_ID = #{bookId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bookCount != null" >
+        BOOK_COUNT = #{bookCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.project.aiyue.dao.po.BookBag" >
+    update book_bag
+    set USER_ID = #{userId,jdbcType=VARCHAR},
+      BOOK_ID = #{bookId,jdbcType=BIGINT},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      BOOK_COUNT = #{bookCount,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="getList" resultMap="BaseResultMap">
+      SELECT a.id,a.BOOK_COUNT, b.TITLE, b.IMAGE_MEDIUM
+      FROM (select *
+            from book_bag
+            WHERE USER_ID = #{userId}) as a
+      LEFT JOIN book_info AS b on a.BOOK_ID = b.BOOK_ID
+  </select>
+  <select id="selectByUserIdAndBookId" resultMap="BaseResultMap">
+    select * from book_bag WHERE USER_ID = #{userId} and BOOK_ID = #{bookId}
+  </select>
+  <update id="updateBookCount">
+    update book_bag set BOOK_COUNT = BOOK_COUNT + 1 WHERE ID = #{id}
+  </update>
+</mapper>
