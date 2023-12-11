@@ -16,7 +16,7 @@ public class OrderInfo implements Serializable {
     private Long orderMoney;
     @ApiModelProperty("用户ID")
     private String userId;
-    @ApiModelProperty("订单状态：A00-创建，A01-支付成功，A01-支付失败，B00-创建，B01-退款成功，B01-退款失败")
+    @ApiModelProperty("订单状态：A00-创建，A01-支付成功，A02-支付失败，B00-创建，B01-退款成功，B01-退款失败")
     private String orderStatus;
     @ApiModelProperty("订单类型：A-支付，B-退款")
     private String orderType;

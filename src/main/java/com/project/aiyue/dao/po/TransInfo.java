@@ -16,7 +16,7 @@ public class TransInfo implements Serializable {
     private Long orderId;
     @ApiModelProperty("流水金额")
     private String transMoney;
-    @ApiModelProperty("流水状态：A00-创建，A01-支付成功，A01-支付失败，B00-创建，B01-退款成功，B01-退款失败")
+    @ApiModelProperty("流水状态：A00-创建，A01-支付成功，A02-支付失败，B00-创建，B01-退款成功，B01-退款失败")
     private String transStatus;
     @ApiModelProperty("流水类型：A-支付，B-退")
     private String transType;
