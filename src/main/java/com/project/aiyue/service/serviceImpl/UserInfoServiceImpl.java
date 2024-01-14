@@ -1,22 +1,15 @@
 package com.project.aiyue.service.serviceImpl;
 
-import cn.hutool.http.HttpException;
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpResponse;
-import cn.hutool.http.HttpUtil;
+import com.alibaba.fastjson2.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 import com.project.aiyue.bo.CreateUserBO;
 import com.project.aiyue.bo.PayReadPlanReqBO;
-import com.project.aiyue.bo.ResourceBO;
-import com.project.aiyue.bo.WxNotifyReqBo;
 import com.project.aiyue.constant.CommonConstant;
-import com.project.aiyue.constant.WxConfig;
 import com.project.aiyue.dao.OrderInfoMapper;
+import com.project.aiyue.dao.ReadPlanVipMapper;
 import com.project.aiyue.dao.TransInfoMapper;
 import com.project.aiyue.dao.UserInfoMapper;
 import com.project.aiyue.dao.po.OrderInfo;
@@ -26,10 +19,8 @@ import com.project.aiyue.dao.po.UserInfo;
 import com.project.aiyue.exception.CommonException;
 import com.project.aiyue.responor.CommonRespon;
 import com.project.aiyue.service.UserInfoService;
-import com.project.aiyue.utils.RSAUtil;
 import com.project.aiyue.utils.SecurityUtil;
 import com.project.aiyue.utils.WxPayUtil;
-import com.wechat.pay.java.core.RSAAutoCertificateConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -41,8 +32,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Random;
 
 import static org.apache.http.HttpHeaders.ACCEPT;
@@ -64,13 +55,16 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Autowired
     WxPayUtil wxPayUtil;
 
-    private RSAAutoCertificateConfig config;
-
     @Autowired
-    public void setConfig(){
-        config = new RSAAutoCertificateConfig.Builder().merchantId(WxConfig.merchantId).privateKeyFromPath(WxConfig.privateKeyPath)
-                .merchantSerialNumber(WxConfig.merchantSerialNumber).apiV3Key(WxConfig.apiV3key).build();
-    }
+    private ReadPlanVipMapper readPlanVipMapper;
+
+//    private RSAAutoCertificateConfig config;
+//
+//    @Autowired
+//    public void setConfig(){
+//        config = new RSAAutoCertificateConfig.Builder().merchantId(WxConfig.merchantId).privateKeyFromPath(WxConfig.privateKeyPath)
+//                .merchantSerialNumber(WxConfig.merchantSerialNumber).apiV3Key(WxConfig.apiV3key).build();
+//    }
 
     private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -88,6 +82,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         userInfo.setPassword(securityPassword);
         //保存
         userInfoMapper.insert(userInfo);
+
         // 创建订单和流水进行支付
         return createOrder(userId, userInfo.getReadPlanVip(), userInfo.getOpenId());
     }
@@ -102,11 +97,11 @@ public class UserInfoServiceImpl implements UserInfoService {
             log.info("用户账号或密码错误，请重新输入");
             throw new CommonException(-1, "用户账号或密码错误，请重新输入");
         }
-        if(info.getIsLock() != "0"){
-            log.info("请先购买vip卡或续费vip卡");
-            throw new CommonException(-1,"请先购买vip卡或续费vip卡");
+        if(info.getIsLock().equals("0")){
+            return info;
         }
-        return info;
+        log.info("请先购买vip卡或续费vip卡");
+        throw new CommonException(-1,"请先购买vip卡或续费vip卡");
     }
 
     @Override
@@ -128,14 +123,60 @@ public class UserInfoServiceImpl implements UserInfoService {
         transInfo.setTransStatus(orderInfo.getOrderStatus());
         transInfoMapper.updateByPrimaryKeySelective(transInfo);
 
+
         if ("SUCCESS".equals(status)){
             // 如果支付成功，则将该用户该成VIP用户
-            OrderInfo orderInfo1 = orderInfoMapper.selectByPrimaryKey(orderInfo.getOrderId());
+            OrderInfo originOrderInfo = orderInfoMapper.selectByPrimaryKey(orderInfo.getOrderId());
+            UserInfo originUserInfo = userInfoMapper.selectByPrimaryKey(originOrderInfo.getUserId());
+            ReadPlanVip readPlanVip = readPlanVipMapper.selectByPrimaryKey(originOrderInfo.getVipId());
             UserInfo userInfo = new UserInfo();
-            userInfo.setUserId(orderInfo1.getUserId());
-            userInfo.setIsLock("0");
+            userInfo.setUserId(originOrderInfo.getUserId());
+            userInfo.setUserType("0");
+            Calendar instance = Calendar.getInstance();
+            if (null == originUserInfo.getVipEndTime()){
+                instance.add(Calendar.DAY_OF_MONTH,readPlanVip.getPeriodOfValidity().intValue());
+                userInfo.setVipEndTimeStr(SDF.format(instance.getTime()));
+            }else{
+                instance.setTime(originUserInfo.getVipEndTime());
+                instance.add(Calendar.DAY_OF_MONTH,readPlanVip.getPeriodOfValidity().intValue());
+                userInfo.setVipEndTimeStr(SDF.format(instance.getTime()));
+            }
             userInfoMapper.updateByPrimaryKeySelective(userInfo);
         }
+    }
+
+    @Override
+    public CommonRespon updateOrderAndUserInfo(String orderId, JSONObject data) {
+        String trade_state = data.getString("trade_state");
+        if (trade_state.equals("SUCCESS")){
+            OrderInfo info = new OrderInfo();
+            info.setOrderId(Long.parseLong(orderId));
+            info.setUpdateTimeStr(SDF.format(new Date()));
+            info.setOrderStatus("A01");
+            orderInfoMapper.updateByStatus(info);
+            TransInfo transInfo = new TransInfo();
+            transInfo.setOrderId(info.getOrderId());
+            transInfo.setTransStatus("A01");
+            transInfo.setUpdateTimeStr(info.getUpdateTimeStr());
+            transInfoMapper.updateByStatus(transInfo);
+            OrderInfo orderInfo = orderInfoMapper.selectByPrimaryKey(info.getOrderId());
+            UserInfo originUserInfo = userInfoMapper.selectByPrimaryKey(orderInfo.getUserId());
+            ReadPlanVip readPlanVip = readPlanVipMapper.selectByPrimaryKey(orderInfo.getVipId());
+            UserInfo userInfo = new UserInfo();
+            userInfo.setUserId(orderInfo.getUserId());
+            userInfo.setIsLock("0");
+            Calendar instance = Calendar.getInstance();
+            if (null == originUserInfo.getVipEndTime()){
+                instance.add(Calendar.DAY_OF_MONTH,readPlanVip.getPeriodOfValidity().intValue());
+                userInfo.setVipEndTimeStr(SDF.format(instance.getTime()));
+            }else{
+                instance.setTime(originUserInfo.getVipEndTime());
+                instance.add(Calendar.DAY_OF_MONTH,readPlanVip.getPeriodOfValidity().intValue());
+                userInfo.setVipEndTimeStr(SDF.format(instance.getTime()));
+            }
+            userInfoMapper.updateByPrimaryKeySelective(userInfo);
+        }
+        return CommonRespon.success(null);
     }
 
     /**
@@ -157,6 +198,7 @@ public class UserInfoServiceImpl implements UserInfoService {
             orderInfo.setOrderStatus("A00");
             orderInfo.setOrderType("A");
             orderInfo.setUserId(userId);
+            orderInfo.setVipId(readPlanVip.getVipId());
             orderInfo.setOrderMoney(Long.parseLong(readPlanVip.getReadPlanMoney()));
             orderId = orderInfoMapper.insertNew(orderInfo);
             TransInfo transInfo = new TransInfo();
@@ -213,6 +255,30 @@ public class UserInfoServiceImpl implements UserInfoService {
 //            jsonObject.add("payer", payer);
 //            post.body(jsonObject.toString());
 //            HttpResponse execute = post.execute();
+//            if (null != execute && execute.getStatusLine().getStatusCode() == 200) {
+//                String body = EntityUtils.toString(execute.getEntity());
+////                String body = execute.body();
+//                JsonParser jp = new JsonParser();
+//                JsonObject parse = (JsonObject) jp.parse(body);
+//                String prepayId = parse.get("prepay_id").getAsString();
+//                CreateUserBO bo = new CreateUserBO();
+//                bo.setOrderId(orderId);
+//                bo.setPrepayId(prepayId);
+//                bo.setTimeStamp(String.valueOf(System.currentTimeMillis() / 1000));
+//                bo.setPackageStr(new StringBuffer("prepay_id=").append(prepayId).toString());
+//                bo.setNonceStr(getRandomString());
+//                JsonObject signObj = new JsonObject();
+//                signObj.addProperty("appid", CommonConstant.WX_APP_ID);
+//                signObj.addProperty("timeStamp", bo.getTimeStamp());
+//                signObj.addProperty("nonceStr", bo.getNonceStr());
+//                signObj.addProperty("package", bo.getPackageStr());
+//                bo.setPaySign(RSAUtil.getSign(signObj.toString().getBytes(), CommonConstant.WX_PRIVATE_KEY));
+//                return CommonRespon.success(bo);
+//            } else {
+//                orderInfoMapper.deleteByPrimaryKey(orderId);
+//                transInfoMapper.deleteByPrimaryKey(transId);
+//                return CommonRespon.error(1, "下单失败请重新下单!");
+//            }
             if (null != execute && execute.getStatusLine().getStatusCode() == 200) {
                 String body = EntityUtils.toString(execute.getEntity());
 //                String body = execute.body();
@@ -230,7 +296,7 @@ public class UserInfoServiceImpl implements UserInfoService {
                 signObj.addProperty("timeStamp", bo.getTimeStamp());
                 signObj.addProperty("nonceStr", bo.getNonceStr());
                 signObj.addProperty("package", bo.getPackageStr());
-                bo.setPaySign(RSAUtil.getSign(signObj.toString().getBytes(), CommonConstant.WX_PRIVATE_KEY));
+                bo.setPaySign(wxPayUtil.getSign(bo.getTimeStamp(),bo.getNonceStr(), prepayId));
                 return CommonRespon.success(bo);
             } else {
                 orderInfoMapper.deleteByPrimaryKey(orderId);

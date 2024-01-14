@@ -12,8 +12,10 @@ import com.wechat.pay.contrib.apache.httpclient.util.PemUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
@@ -31,24 +33,40 @@ import java.util.Locale;
 public class WxPayUtil {
 
     /** 商户号 */
-    public static final String merchantId = "你的商户号";
+    public static final String merchantId = "1662535112";
+
     /** 商户API私钥路径 */
-    public static final String privateKeyPath = "D:/apiclient_key.pem";
+    public static String privateKeyPath = "D:\\ideaproject\\ai-yue\\src\\main\\resources\\apiclient_key.pem";
+
     /** 商户API私钥路径 */
-    public static final String certPath = "D:/apiclient_key.pem";
+    public static String certPath = "D:\\ideaproject\\ai-yue\\src\\main\\resources\\apiclient_cert.pem";
+
     /** 商户证书序列号 */
-    public static final String merchantSerialNumber = "xxxxxxx";
+    public static final String merchantSerialNumber = "761BEFBD7E442AF5B5E80A1776C8EE813EB04903";
+
     /** 商户APIV3密钥 */
-    public static final String apiV3key = "xxxxxxx";
+    public static final String apiV3key = "dedad62418608e4f65t985cj733b02ba";
+
     /**appid */
-    public static final String appid="xxxxxxx";
+    public static final String appid="wx80c234a658b806df";
+
     /**mchSerialNo */
-    public static final String mchSerialNo="xxxxxxx";
+    public static final String mchSerialNo="761BEFBD7E442AF5B5E80A1776C8EE813EB04903";
+
     /**notify_url */
-    public static final String notify_url="xxxxxxx";
+    public static final String notify_url="http://aiyuekj.cn/aiyue/userInfo/wxNotify";
 
     private CloseableHttpClient httpClient;
+
     private Verifier verifier;
+
+    public static void main(String[] args) {
+        File file = new File(privateKeyPath);
+        System.out.println(file.isFile());
+        String name = file.getName();
+        System.out.println(name);
+        System.out.println(file.length());
+    }
 
     @PostConstruct
     public void initHttpClient(){
@@ -82,15 +100,14 @@ public class WxPayUtil {
 
     /**
      * 生成签名
-     * @param appId
      * @param timestamp
      * @param nonceStr
      * @param prepayId
      * @return
      * @throws Exception
      */
-    public String getSign(String appId, String timestamp, String nonceStr, String prepayId) throws Exception{
-        String message=appId + "\n"
+    public String getSign(String timestamp, String nonceStr, String prepayId) throws Exception{
+        String message=appid + "\n"
                 + timestamp + "\n"
                 + nonceStr + "\n"
                 + prepayId + "\n";

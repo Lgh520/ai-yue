@@ -19,6 +19,8 @@ package com.project.aiyue.utils;
 //import java.sql.SQLException;
 //import java.sql.Statement;
 
+import org.apache.http.impl.client.CloseableHttpClient;
+
 //解析http
 public class DoubanSpider2 {
     /*//     根据URL获得所有的html信息

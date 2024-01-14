@@ -18,4 +18,6 @@ public interface TransInfoMapper {
     int updateByPrimaryKeySelective(TransInfo record);
 
     int updateByPrimaryKey(TransInfo record);
+
+    int updateByStatus(TransInfo record);
 }

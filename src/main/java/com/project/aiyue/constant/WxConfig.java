@@ -4,7 +4,7 @@ public class WxConfig {
     /** 商户号 */
     public static final String merchantId = "你的商户号";
     /** 商户API私钥路径 */
-    public static final String privateKeyPath = "D:/apiclient_key.pem";
+    public static final String privateKeyPath = "apiclient_key.pem";
     /** 商户证书序列号 */
     public static final String merchantSerialNumber = "xxxxxxx";
     /** 商户APIV3密钥 */

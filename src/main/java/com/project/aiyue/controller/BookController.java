@@ -6,6 +6,7 @@ import com.project.aiyue.bo.SearchWrapper;
 import com.project.aiyue.constant.ResponCodeConstant;
 import com.project.aiyue.bo.BookRentWrapper;
 import com.project.aiyue.dao.po.BookInfo;
+import com.project.aiyue.responor.BorrowReqBO;
 import com.project.aiyue.responor.CommonRespon;
 import com.project.aiyue.service.BookInfoService;
 import io.swagger.annotations.Api;
@@ -93,9 +94,9 @@ public class BookController {
 
     @PostMapping("/{id}/borrow")
     @ApiOperation("图书借阅")
-    public CommonRespon<List<BookRentWrapper>> Borrow(@RequestBody @Valid List<BookInfo> list, @PathVariable String id) {
+    public CommonRespon<List<BookRentWrapper>> borrow(@RequestBody @Valid BorrowReqBO reqBO, @PathVariable String id) {
         try {
-            List<BookRentWrapper> borrow = bookInfoService.borrow(list, id);
+            List<BookRentWrapper> borrow = bookInfoService.borrow(reqBO, id);
             if (borrow != null) {
                 return CommonRespon.success(borrow);
             }

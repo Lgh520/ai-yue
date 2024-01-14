@@ -1,7 +1,6 @@
 package com.project.aiyue.service.serviceImpl;
 
 import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.util.DateUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.project.aiyue.bo.SearchWrapper;
@@ -10,20 +9,18 @@ import com.project.aiyue.dao.*;
 import com.project.aiyue.bo.BookRentWrapper;
 import com.project.aiyue.dao.po.*;
 import com.project.aiyue.exception.CommonException;
+import com.project.aiyue.responor.BorrowReqBO;
 import com.project.aiyue.service.BookInfoService;
 import lombok.extern.slf4j.Slf4j;
-import org.jsoup.helper.DataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -103,12 +100,13 @@ public class BookInfoServiceImpl implements BookInfoService {
     }
 
     @Override
-    public List<BookRentWrapper> borrow(List<BookInfo> list,String userId) {
+    public List<BookRentWrapper> borrow(BorrowReqBO req, String userId) {
         ArrayList<BookRentWrapper> result = new ArrayList<>();
-        if (CollectionUtils.isEmpty(list)) {
+        if (CollectionUtils.isEmpty(req.getList())) {
             log.info("借阅图书不能为空");
             throw new CommonException(-1, "借阅图书不能为空");
         }
+        List<BookInfo> list = req.getList();
         //判断用户是否可以借阅
         UserInfo info = userInfoMapper.selectByPrimaryKey(userId);
         if(Objects.isNull(info)){
@@ -139,6 +137,9 @@ public class BookInfoServiceImpl implements BookInfoService {
             successBook.stream().forEach(e->rentIds.add(e.getRentId()));
             DeliveryRecord deliveryRecord = new DeliveryRecord();
             deliveryRecord.setRentId(JSON.toJSONString(rentIds));
+            deliveryRecord.setName(req.getName());
+            deliveryRecord.setPhoneNumber(req.getPhoneNumber());
+            deliveryRecord.setAddressStr(req.getAddressStr());
             deliveryRecordMapper.insert(deliveryRecord);
         }
         return result;

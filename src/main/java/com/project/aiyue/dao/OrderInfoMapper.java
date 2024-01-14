@@ -18,4 +18,6 @@ public interface OrderInfoMapper {
     int updateByPrimaryKeySelective(OrderInfo record);
 
     int updateByPrimaryKey(OrderInfo record);
+
+    int updateByStatus(OrderInfo record);
 }

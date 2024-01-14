@@ -33,6 +33,8 @@ public class  UserInfo implements Serializable {
     private Long vipID;
     @ApiModelProperty("VIP卡过期时间")
     private Date vipEndTime;
+    @ApiModelProperty("VIP卡过期时间")
+    private String vipEndTimeStr;
     @ApiModelProperty("openId")
     private String openId;
 

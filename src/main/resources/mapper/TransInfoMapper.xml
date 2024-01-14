@@ -122,4 +122,11 @@
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
     where TRANS_ID = #{transId,jdbcType=BIGINT}
   </update>
+  <update id="updateByStatus" parameterType="com.project.aiyue.dao.po.TransInfo" >
+    update trans_info
+    set
+      TRANS_STATUS = #{transStatus,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTimeStr,jdbcType=TIMESTAMP}
+    where ORDER_ID = #{orderId,jdbcType=BIGINT}
+  </update>
 </mapper>

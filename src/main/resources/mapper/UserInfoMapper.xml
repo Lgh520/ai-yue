@@ -36,7 +36,7 @@
       USER_TYPE, IS_LOCK, CREATE_TIME, 
       UPDATE_TIME)
     values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-     0, 2, now(), now())
+     '0', '2', now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.project.aiyue.dao.po.UserInfo" >
     insert into user_info
@@ -101,6 +101,9 @@
       </if>
       <if test="isLock != null" >
         IS_LOCK = #{isLock,jdbcType=VARCHAR},
+      </if>
+      <if test="vipEndTimeStr != null" >
+        VIP_END_TIME = #{vipEndTimeStr,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},

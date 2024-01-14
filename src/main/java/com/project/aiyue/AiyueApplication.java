@@ -1,6 +1,6 @@
 package com.project.aiyue;
 
-import com.github.pagehelper.autoconfigure.PageHelperAutoConfiguration;
+import com.project.aiyue.utils.WxPayUtil;
 import com.wechat.pay.java.core.Config;
 import com.wechat.pay.java.core.RSAAutoCertificateConfig;
 import org.mybatis.spring.annotation.MapperScan;
@@ -30,13 +30,13 @@ public class AiyueApplication {
         return new RestTemplateBuilder().build();
     }
 
-//    @Bean
-//    public Config getWxConfig() {
-//        return new RSAAutoCertificateConfig.Builder()
-//                .merchantId("")
-//                .privateKeyFromPath("")
-//                .merchantSerialNumber("")
-//                .apiV3Key("")
-//                .build();
-//    }
+    @Bean
+    public Config getWxConfig() {
+        return new RSAAutoCertificateConfig.Builder()
+                .merchantId(WxPayUtil.merchantId)
+                .privateKeyFromPath(WxPayUtil.privateKeyPath)
+                .merchantSerialNumber(WxPayUtil.merchantSerialNumber)
+                .apiV3Key(WxPayUtil.apiV3key)
+                .build();
+    }
 }
