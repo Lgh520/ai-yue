@@ -1,22 +1,26 @@
 package com.project.aiyue.controller;
 
+import static org.apache.http.HttpHeaders.ACCEPT;
+import static org.apache.http.entity.ContentType.APPLICATION_JSON;
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.project.aiyue.utils.WxPayUtil;
-import com.wechat.pay.contrib.apache.httpclient.exception.ParseException;
-import com.wechat.pay.contrib.apache.httpclient.exception.ValidationException;
 import com.wechat.pay.contrib.apache.httpclient.notification.Notification;
 import com.wechat.pay.contrib.apache.httpclient.notification.NotificationHandler;
 import com.wechat.pay.contrib.apache.httpclient.notification.NotificationRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import static com.wechat.pay.contrib.apache.httpclient.constant.WechatPayHttpHeaders.*;
@@ -78,7 +82,7 @@ public class UserInfoController {
 
     @ApiOperation("微信通知回调接口")
     @PostMapping ("/wxNotify")
-    public void wxNotify(HttpServletRequest request, HttpServletResponse response){
+    public void wxNotify(HttpServletRequest request){
         try {
             //读取请求体的信息
             ServletInputStream inputStream = request.getInputStream();
@@ -113,7 +117,37 @@ public class UserInfoController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
+    /**
+     * 订单查询
+     *
+     * @return
+     */
+    @ApiOperation("微信订单查询接口")
+    @PostMapping ("/queryOrder")
+    public CommonRespon queryOrder(String orderId) {
+        try {
+            //根据系统自有订单号查询
+            String url = "https://api.mch.weixin.qq.com/v3/pay/transactions/out-trade-no/" + orderId;
+            URIBuilder uriBuilder = new URIBuilder(url);
+            uriBuilder.setParameter("mchid", WxPayUtil.merchantId);
+
+            HttpGet httpGet = new HttpGet(uriBuilder.build());
+            httpGet.addHeader(ACCEPT, APPLICATION_JSON.toString());
+
+            CloseableHttpClient httpClient = wxPayUtil.getHttpClient();
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+
+            String bodyAsString = EntityUtils.toString(response.getEntity());
+            JSONObject data = JSON.parseObject(bodyAsString);
+            log.info("微信订单查询结果：{}", data);
+            CommonRespon tradeState = userInfoService.updateOrderAndUserInfo(orderId, data);
+            return tradeState;
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("订单查询异常:{}", e.getMessage());
+            return CommonRespon.error(1, "订单查询异常:" + e.getMessage());
+        }
+    }
 }

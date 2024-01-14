@@ -137,7 +137,7 @@ public class BookInfoServiceImpl implements BookInfoService {
             successBook.stream().forEach(e->rentIds.add(e.getRentId()));
             DeliveryRecord deliveryRecord = new DeliveryRecord();
             deliveryRecord.setRentId(JSON.toJSONString(rentIds));
-            deliveryRecord.setName(req.getName());
+            deliveryRecord.setNameStr(req.getNameStr());
             deliveryRecord.setPhoneNumber(req.getPhoneNumber());
             deliveryRecord.setAddressStr(req.getAddressStr());
             deliveryRecordMapper.insert(deliveryRecord);
