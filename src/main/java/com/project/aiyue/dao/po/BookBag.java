@@ -24,5 +24,7 @@ public class BookBag {
     private String bookName;
     @ApiModelProperty("缩略图")
     private String imageMedium;
+    @ApiModelProperty("图书内容简介")
+    private String summary;
 
 }

@@ -36,10 +36,10 @@ public class WxPayUtil {
     public static final String merchantId = "1662535112";
 
     /** 商户API私钥路径 */
-    public static String privateKeyPath = "D:\\ideaproject\\ai-yue\\src\\main\\resources\\apiclient_key.pem";
+    public static String privateKeyPath = "/usr/local/app/java_app/apiclient_key.pem";
 
     /** 商户API私钥路径 */
-    public static String certPath = "D:\\ideaproject\\ai-yue\\src\\main\\resources\\apiclient_cert.pem";
+    public static String certPath = "/usr/local/app/java_app/apiclient_cert.pem";
 
     /** 商户证书序列号 */
     public static final String merchantSerialNumber = "761BEFBD7E442AF5B5E80A1776C8EE813EB04903";

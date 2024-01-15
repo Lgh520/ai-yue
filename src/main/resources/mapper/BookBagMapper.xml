@@ -10,6 +10,7 @@
     <result column="BOOK_COUNT" property="bookCount" jdbcType="INTEGER" />
     <result column="TITLE" property="bookName" jdbcType="VARCHAR" />
     <result column="IMAGE_MEDIUM" property="imageMedium" jdbcType="VARCHAR" />
+    <result column="SUMMARY" property="summary" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     ID, USER_ID, BOOK_ID, CREATE_TIME, UPDATE_TIME, BOOK_COUNT
@@ -106,7 +107,7 @@
     where ID = #{id,jdbcType=BIGINT}
   </update>
   <select id="getList" resultMap="BaseResultMap">
-      SELECT a.id,a.BOOK_COUNT, b.TITLE, b.IMAGE_MEDIUM
+      SELECT a.id,a.BOOK_COUNT, b.TITLE, b.IMAGE_MEDIUM, b.BOOK_ID,b.SUMMARY
       FROM (select *
             from book_bag
             WHERE USER_ID = #{userId}) as a
