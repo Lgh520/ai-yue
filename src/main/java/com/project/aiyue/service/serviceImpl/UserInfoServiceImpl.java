@@ -199,7 +199,7 @@ public class UserInfoServiceImpl implements UserInfoService {
             orderInfo.setOrderType("A");
             orderInfo.setUserId(userId);
             orderInfo.setVipId(readPlanVip.getVipId());
-            orderInfo.setOrderMoney(Long.parseLong(readPlanVip.getReadPlanMoney()));
+            orderInfo.setOrderMoney(readPlanVip.getReadPlanMoney());
             orderId = orderInfoMapper.insertNew(orderInfo);
             TransInfo transInfo = new TransInfo();
             transInfo.setOrderId(orderId);
@@ -209,6 +209,7 @@ public class UserInfoServiceImpl implements UserInfoService {
             transId = Long.parseLong(getTransId());
             transInfo.setTransId(transId);
             transInfo.setCreateTimeStr(nowStr);
+            transInfo.setTransType("A");
             transInfoMapper.insertNew(transInfo);
 
             HttpPost httpPost = new HttpPost("https://api.mch.weixin.qq.com/v3/pay/transactions/jsapi");
@@ -225,7 +226,7 @@ public class UserInfoServiceImpl implements UserInfoService {
                     .put("notify_url", WxPayUtil.notify_url)
                     .put("out_trade_no", orderId);
             rootNode.putObject("amount")
-                    .put("total", (Integer.parseInt(readPlanVip.getReadPlanMoney()) + Integer.parseInt(readPlanVip.getDeposit())) * 100);
+                    .put("total", (Float.parseFloat(readPlanVip.getReadPlanMoney()) + Float.parseFloat(readPlanVip.getDeposit())) * 100);
             rootNode.putObject("payer")
                     .put("openid", openId);
 

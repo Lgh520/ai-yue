@@ -3,7 +3,7 @@
 <mapper namespace="com.project.aiyue.dao.OrderInfoMapper" >
   <resultMap id="BaseResultMap" type="com.project.aiyue.dao.po.OrderInfo" >
     <id column="ORDER_ID" property="orderId" jdbcType="BIGINT" />
-    <result column="ORDER_MONEY" property="orderMoney" jdbcType="BIGINT" />
+    <result column="ORDER_MONEY" property="orderMoney" jdbcType="VARCHAR" />
     <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
     <result column="ORDER_STATUS" property="orderStatus" jdbcType="VARCHAR" />
     <result column="ORDER_TYPE" property="orderType" jdbcType="VARCHAR" />
@@ -27,7 +27,7 @@
     insert into order_info (ORDER_ID, ORDER_MONEY, USER_ID, 
       ORDER_STATUS, ORDER_TYPE, CREATE_TIME, 
       UPDATE_TIME)
-    values (#{orderId,jdbcType=BIGINT}, #{orderMoney,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, 
+    values (#{orderId,jdbcType=BIGINT}, #{orderMoney,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR},
       #{orderStatus,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
@@ -35,7 +35,7 @@
     insert into order_info (ORDER_ID, ORDER_MONEY, USER_ID,
       ORDER_STATUS, ORDER_TYPE, VIP_ID, CREATE_TIME,
       UPDATE_TIME)
-    values (#{orderId,jdbcType=BIGINT}, #{orderMoney,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR},
+    values (#{orderId,jdbcType=BIGINT}, #{orderMoney,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR},
       #{orderStatus,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR}, #{vipId,jdbcType=BIGINT}, #{createTimeStr,jdbcType=TIMESTAMP},
       #{updateTimeStr,jdbcType=TIMESTAMP})
   </insert>
@@ -69,7 +69,7 @@
         #{orderId,jdbcType=BIGINT},
       </if>
       <if test="orderMoney != null" >
-        #{orderMoney,jdbcType=BIGINT},
+        #{orderMoney,jdbcType=VARCHAR},
       </if>
       <if test="userId != null" >
         #{userId,jdbcType=VARCHAR},
@@ -92,7 +92,7 @@
     update order_info
     <set >
       <if test="orderMoney != null" >
-        ORDER_MONEY = #{orderMoney,jdbcType=BIGINT},
+        ORDER_MONEY = #{orderMoney,jdbcType=VARCHAR},
       </if>
       <if test="userId != null" >
         USER_ID = #{userId,jdbcType=VARCHAR},
@@ -114,7 +114,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.project.aiyue.dao.po.OrderInfo" >
     update order_info
-    set ORDER_MONEY = #{orderMoney,jdbcType=BIGINT},
+    set ORDER_MONEY = #{orderMoney,jdbcType=VARCHAR},
       USER_ID = #{userId,jdbcType=VARCHAR},
       ORDER_STATUS = #{orderStatus,jdbcType=VARCHAR},
       ORDER_TYPE = #{orderType,jdbcType=VARCHAR},

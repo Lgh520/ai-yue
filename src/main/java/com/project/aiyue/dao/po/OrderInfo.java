@@ -15,7 +15,7 @@ public class OrderInfo implements Serializable {
     private Long orderId;
 
     @ApiModelProperty("订单金额")
-    private Long orderMoney;
+    private String orderMoney;
 
     @ApiModelProperty("用户ID")
     private String userId;
