@@ -31,7 +31,7 @@
       #{orderStatus,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertNew" parameterType="com.project.aiyue.dao.po.OrderInfo" useGeneratedKeys="true" keyProperty="orderId">
+  <insert id="insertNew" parameterType="com.project.aiyue.dao.po.OrderInfo">
     insert into order_info (ORDER_ID, ORDER_MONEY, USER_ID,
       ORDER_STATUS, ORDER_TYPE, VIP_ID, CREATE_TIME,
       UPDATE_TIME)
