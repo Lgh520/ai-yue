@@ -17,7 +17,7 @@ public class DeliveryRecord implements Serializable {
     @ApiModelProperty("书籍借阅ID")
     private String rentId;
 
-    @ApiModelProperty("配送用户ID")
+    @ApiModelProperty("配送员ID")
     private String deliveryUser;
 
     @ApiModelProperty("配送状态：0-未配送, 1-已接单，2-配送中，3-配送完成")
@@ -34,6 +34,9 @@ public class DeliveryRecord implements Serializable {
 
     @ApiModelProperty("配送地址")
     private String addressStr;
+
+    @ApiModelProperty("经纬度")
+    private String latiAndLongitude;
 
     @ApiModelProperty("创建时间")
     private Date createTime;

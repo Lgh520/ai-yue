@@ -51,7 +51,7 @@ public class BookInfo extends Page implements Serializable {
     @ApiModelProperty("浏览次数")
     private Long viewCounts;
     @ApiModelProperty("货架ID")
-    private Long goodsId;
+    private String goodsId;
     @ApiModelProperty("创建时间")
     private Date createTime;
     @ApiModelProperty("更新时间")

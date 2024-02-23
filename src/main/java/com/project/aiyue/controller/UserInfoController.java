@@ -37,6 +37,7 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/userInfo")
 @Api(tags = "用户服务接口")
 public class UserInfoController {
@@ -119,11 +120,6 @@ public class UserInfoController {
         }
     }
 
-    /**
-     * 订单查询
-     *
-     * @return
-     */
     @ApiOperation("微信订单查询接口")
     @PostMapping ("/queryOrder")
     public CommonRespon queryOrder(String orderId) {
@@ -149,5 +145,10 @@ public class UserInfoController {
             log.error("订单查询异常:{}", e.getMessage());
             return CommonRespon.error(1, "订单查询异常:" + e.getMessage());
         }
+    }
+
+    @RequestMapping(value = "/test",method = RequestMethod.GET)
+    public String test() {
+        return "ok";
     }
 }

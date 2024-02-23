@@ -37,6 +37,7 @@ public class BookInfoServiceImpl implements BookInfoService {
     private UserInfoMapper userInfoMapper;
     @Autowired
     private BookRentMapper bookRentMapper;
+
     @Override
     public PageInfo<BookInfo> getList(BookInfo bookInfo) {
         if (Objects.isNull(bookInfo)) {
@@ -76,12 +77,13 @@ public class BookInfoServiceImpl implements BookInfoService {
         }
         boolean b = bookInfo.getIsbn10() == null || bookInfo.getIsbn13() == null;
         if (b) {
-            log.info("请检查10位ISBN码和13位ISBN码是否为空，10位ISBN码={}，13位ISBN码={}", bookInfo.getIsbn10(), bookInfo.getIsbn13());
+            log.error("请检查10位ISBN码和13位ISBN码是否为空，10位ISBN码={}，13位ISBN码={}", bookInfo.getIsbn10(), bookInfo.getIsbn13());
             throw new CommonException(-1, "请检查10位ISBN码和13位ISBN码是否为空");
         }
         //图书是否存在
         Long id = bookInfoMapper.getIdByIsbn(bookInfo.getIsbn10(), bookInfo.getIsbn13());
         if (id != null) {
+            log.info("10位ISBN码={}，13位ISBN码={},图书:{}存在，开始更新库存，库存数量+{}",bookInfo.getIsbn10(), bookInfo.getIsbn13(),bookInfo.getTitle(),bookInfo.getBookCounts());
             //存在更新库存
             Long integer = bookInfoMapper.addBookCountById(id,bookInfo.getBookCounts());
             if (integer == 0) {
@@ -93,7 +95,7 @@ public class BookInfoServiceImpl implements BookInfoService {
         //不存在则添加图书
         int insert = bookInfoMapper.insert(bookInfo);
         if (insert == 0) {
-            log.info("图书添加失败，请重试");
+            log.error("图书添加失败，请重试");
             return false;
         }
         return true;
@@ -110,7 +112,7 @@ public class BookInfoServiceImpl implements BookInfoService {
         //判断用户是否可以借阅
         UserInfo info = userInfoMapper.selectByPrimaryKey(userId);
         if(Objects.isNull(info)){
-            log.info("用户={}不存在",userId);
+            log.error("用户={}不存在",userId);
             throw new CommonException(-1,"用户不存在");
         }
         List<BookRent> bookRents = bookRentMapper.noReturnBooKByUserId(userId);
@@ -121,7 +123,8 @@ public class BookInfoServiceImpl implements BookInfoService {
         if(vipEndTime.before(new Date())){
             throw new CommonException(-1,"vip卡已到期啦，请重新购买！");
         }
-        int sum = list.stream().mapToInt(e -> e.getBookCounts()).sum();
+//        int sum = list.stream().mapToInt(e -> e.getBookCounts()).sum();
+        int sum = list.size();
         ReadPlanVip readPlanVip = readPlanVipMapper.selectByPrimaryKey(info.getVipID());
         if(sum > readPlanVip.getPerRentCount()){
             throw new CommonException(-1,"当前只能借阅"+readPlanVip.getPerRentCount()+"本哦。");
@@ -133,13 +136,14 @@ public class BookInfoServiceImpl implements BookInfoService {
         //有借阅成功的书籍就插入一条未接单的配送信息
         List<BookRentWrapper> successBook = result.stream().filter(e -> e.getRentSuccess()).collect(Collectors.toList());
         if(!CollectionUtils.isEmpty(successBook)){
-            List<Long> rentIds = new ArrayList<>();
-            successBook.stream().forEach(e->rentIds.add(e.getRentId()));
+            StringBuilder sb = new StringBuilder();
+            successBook.stream().forEach(e->sb.append(e.getRentId()));
             DeliveryRecord deliveryRecord = new DeliveryRecord();
-            deliveryRecord.setRentId(JSON.toJSONString(rentIds));
+            deliveryRecord.setRentId(sb.toString());
             deliveryRecord.setNameStr(req.getNameStr());
             deliveryRecord.setPhoneNumber(req.getPhoneNumber());
             deliveryRecord.setAddressStr(req.getAddressStr());
+            deliveryRecord.setDeliveryStatus("0");
             deliveryRecordMapper.insert(deliveryRecord);
         }
         return result;
@@ -165,5 +169,10 @@ public class BookInfoServiceImpl implements BookInfoService {
         List<BookInfo> search = bookInfoMapper.search(searchWrapper.getName());
         result.setList(search);
         return result;
+    }
+
+    @Override
+    public List<BookInfo> queryDeliveryBookInfo(List<String> list) {
+        return bookInfoMapper.queryDeliveryBookInfo(list);
     }
 }

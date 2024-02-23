@@ -1,9 +1,11 @@
 package com.project.aiyue.dao;
 
 import com.project.aiyue.dao.po.BookBag;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+@Mapper
 public interface BookBagMapper {
     int deleteByPrimaryKey(Long id);
 

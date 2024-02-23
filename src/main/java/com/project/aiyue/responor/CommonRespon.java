@@ -20,6 +20,14 @@ public class CommonRespon<T> {
                 .build();
     }
 
+    public static <T> CommonRespon<T> success(T data,String msg){
+        return CommonRespon.<T>builder()
+                .code(ResponCodeConstant.SUCCESS_CODE)
+                .message(msg)
+                .data(data)
+                .build();
+    }
+
     public static <T> CommonRespon<T> error(int code,String msg){
         return CommonRespon.<T>builder()
                 .code(code)

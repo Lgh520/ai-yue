@@ -2,6 +2,7 @@ package com.project.aiyue.dao;
 
 import com.project.aiyue.dao.po.BookInfo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -30,4 +31,6 @@ public interface BookInfoMapper {
     Long borrowBookById(Long id,Integer count);
     Integer updateViewCountById(Long id);
     Integer updateRentCountById(Long id);
+
+    List<BookInfo> queryDeliveryBookInfo(@Param("list") List<String> list);
 }

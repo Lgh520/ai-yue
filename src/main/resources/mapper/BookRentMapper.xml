@@ -107,4 +107,7 @@
   <select id="noReturnBooKByUserId" resultMap="BaseResultMap">
     select * from book_rent where USER_ID = #{userId} and IS_BACK = 0
   </select>
+  <select id="selectByUserId" resultMap="BaseResultMap">
+    select * from book_rent where USER_ID = #{userId}
+  </select>
 </mapper>

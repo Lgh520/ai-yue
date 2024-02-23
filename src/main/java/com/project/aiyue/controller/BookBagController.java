@@ -22,6 +22,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/bookBag")
 @Api(tags = "书包服务接口")
 public class BookBagController {

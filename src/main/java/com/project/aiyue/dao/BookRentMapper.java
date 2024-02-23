@@ -19,5 +19,7 @@ public interface BookRentMapper {
 
     int updateByPrimaryKey(BookRent record);
 
-     List<BookRent> noReturnBooKByUserId(String userId);
+    List<BookRent> noReturnBooKByUserId(String userId);
+
+    List<BookRent> selectByUserId(String userId);
 }

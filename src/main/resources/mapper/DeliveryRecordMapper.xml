@@ -10,18 +10,25 @@
     <result column="PHONE_NUMBER" property="phoneNumber" jdbcType="VARCHAR" />
     <result column="NAME_STR" property="nameStr" jdbcType="VARCHAR" />
     <result column="ADDRESS_STR" property="addressStr" jdbcType="VARCHAR" />
+    <result column="LATI_AND_LONGITUDE" property="latiAndLongitude" jdbcType="VARCHAR" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     DELIVERY_ID, RENT_ID, DELIVERY_USER, DELIVERY_STATUS, DELIVERY_TIME,PHONE_NUMBER, NAME_STR, ADDRESS_STR, CREATE_TIME,
-    UPDATE_TIME
+    UPDATE_TIME, LATI_AND_LONGITUDE
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from delivery_record
     where DELIVERY_ID = #{deliveryId,jdbcType=BIGINT}
+  </select>
+  <select id="queryNoDelivery" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from delivery_record
+    where DELIVERY_STATUS = '0' order by CREATE_TIME desc
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from delivery_record
@@ -32,7 +39,7 @@
       DELIVERY_STATUS, DELIVERY_TIME,PHONE_NUMBER, NAME_STR, ADDRESS_STR, CREATE_TIME,
       UPDATE_TIME)
     values (#{deliveryId,jdbcType=BIGINT}, #{rentId,jdbcType=VARCHAR}, #{deliveryUser,jdbcType=VARCHAR},
-      0, #{deliveryTime,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR},#{nameStr,jdbcType=VARCHAR},#{addressStr,jdbcType=VARCHAR}, now(), now())
+      #{deliveryStatus,jdbcType=VARCHAR}, #{deliveryTime,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR},#{nameStr,jdbcType=VARCHAR},#{addressStr,jdbcType=VARCHAR}, now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.project.aiyue.dao.po.DeliveryRecord" >
     insert into delivery_record
@@ -85,7 +92,7 @@
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.project.aiyue.dao.po.DeliveryRecord" >
     update delivery_record
-    <set >
+    set
       <if test="rentId != null" >
         RENT_ID = #{rentId,jdbcType=BIGINT},
       </if>
@@ -95,17 +102,17 @@
       <if test="deliveryStatus != null" >
         DELIVERY_STATUS = #{deliveryStatus,jdbcType=VARCHAR},
       </if>
+      <if test="latiAndLongitude != null" >
+        LATI_AND_LONGITUDE = #{latiAndLongitude,jdbcType=VARCHAR},
+      </if>
       <if test="deliveryTime != null" >
         DELIVERY_TIME = #{deliveryTime,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateTime != null" >
-        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where DELIVERY_ID = #{deliveryId,jdbcType=BIGINT}
+        UPDATE_TIME = now()
+    where DELIVERY_ID = #{deliveryId,jdbcType=BIGINT} and DELIVERY_STATUS = '0'
   </update>
   <update id="updateByPrimaryKey" parameterType="com.project.aiyue.dao.po.DeliveryRecord" >
     update delivery_record

@@ -23,7 +23,7 @@
     <result column="BOOK_COUNTS" property="bookCounts" jdbcType="INTEGER" />
     <result column="RENT_COUNTS" property="rentCounts" jdbcType="BIGINT" />
     <result column="VIEW_COUNTS" property="viewCounts" jdbcType="BIGINT" />
-    <result column="GOODS_ID" property="goodsId" jdbcType="BIGINT" />
+    <result column="GOODS_ID" property="goodsId" jdbcType="VARCHAR" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -63,7 +63,7 @@
       #{imageLarge,jdbcType=VARCHAR}, #{publisher,jdbcType=VARCHAR}, #{isbn10,jdbcType=VARCHAR}, 
       #{isbn13,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, 
       #{price,jdbcType=VARCHAR}, #{bookCounts,jdbcType=VARCHAR}, 0,
-      #{goodsId,jdbcType=BIGINT}, now(),now(),
+      #{goodsId,jdbcType=VARCHAR}, now(),now(),
       #{ageType,jdbcType=VARCHAR}, #{themeType,jdbcType=VARCHAR},0
       )
   </insert>
@@ -267,7 +267,7 @@
         RENT_COUNTS = #{rentCounts,jdbcType=BIGINT},
       </if>
       <if test="goodsId != null" >
-        GOODS_ID = #{goodsId,jdbcType=BIGINT},
+        GOODS_ID = #{goodsId,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
@@ -303,7 +303,7 @@
       PRICE = #{price,jdbcType=VARCHAR},
       BOOK_COUNTS = #{bookCounts,jdbcType=INTEGER},
       RENT_COUNTS = #{rentCounts,jdbcType=BIGINT},
-      GOODS_ID = #{goodsId,jdbcType=BIGINT},
+      GOODS_ID = #{goodsId,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       AGE_TYPE = #{ageType,jdbcType=VARCHAR},
@@ -362,4 +362,13 @@
   <update id="updateRentCountById">
     UPDATE book_info set RENT_COUNTS = RENT_COUNTS + 1 WHERE BOOK_ID = #{id};
   </update>
+  <select id="queryDeliveryBookInfo" resultMap="BaseResultMap">
+    SELECT ISBN_10,ISBN_13,TITLE from book_rent rent
+    left join book_info book on book.BOOK_ID = rent.BOOK_ID
+    where
+    rent.RENT_ID IN
+    <foreach collection="list" open="(" close=")" item="item" separator=",">
+      #{item}
+    </foreach>
+  </select>
 </mapper>

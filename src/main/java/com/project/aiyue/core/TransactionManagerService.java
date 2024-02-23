@@ -39,11 +39,13 @@ public class TransactionManagerService {
                 result.setRentId(bookRent.getRentId());
                 result.setRentSuccess(true);
                 return result;
+            }else{
+                log.info("图书：【{}】库存不够此次借阅数量",info.getTitle());
             }
         }catch (Exception e){
             //回滚数据
             TransactionInterceptor.currentTransactionStatus().setRollbackOnly();
-            log.info("借阅书记失败，请检查库存。bookId={}",bookInfo.getBookId());
+            log.error("借阅书记失败，请检查库存。bookId={}",bookInfo.getBookId());
             result.setRentSuccess(false);
         }
         result.setRentSuccess(false);
