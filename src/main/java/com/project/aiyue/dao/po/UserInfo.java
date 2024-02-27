@@ -1,15 +1,14 @@
 package com.project.aiyue.dao.po;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
+import lombok.ToString;
 import java.io.Serializable;
 import java.util.Date;
+
 @Data
+@ToString
 @ApiModel("用户信息表")
 public class  UserInfo implements Serializable {
     private static final long serialVersionUID = -5465178824092002786L;
@@ -27,6 +26,8 @@ public class  UserInfo implements Serializable {
     private Date createTime;
     @ApiModelProperty("更新时间")
     private Date updateTime;
+    @ApiModelProperty("更新时间str")
+    private String updateTimeStr;
     @ApiModelProperty("vip卡信息")
     private ReadPlanVip readPlanVip;
     @ApiModelProperty("VIP类型")

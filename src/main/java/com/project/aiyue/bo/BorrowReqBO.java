@@ -1,13 +1,16 @@
-package com.project.aiyue.responor;
+package com.project.aiyue.bo;
 
 import com.project.aiyue.dao.po.BookInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
+
 import java.io.Serializable;
 import java.util.List;
 
 @Data
+@ToString
 @ApiModel("借阅书籍入参")
 public class BorrowReqBO implements Serializable {
     private static final long serialVersionUID = -800767299825609672L;

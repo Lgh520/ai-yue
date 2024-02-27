@@ -2,7 +2,7 @@ package com.project.aiyue.controller;
 
 import com.project.aiyue.dao.ConsigeAddressMapper;
 import com.project.aiyue.dao.po.ConsigeAddress;
-import com.project.aiyue.responor.CommonRespon;
+import com.project.aiyue.bo.base.CommonRespon;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

@@ -2,10 +2,13 @@ package com.project.aiyue.dao.po;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
+
 import java.io.Serializable;
 import java.util.Date;
 
 @Data
+@ToString
 public class BookCollection implements Serializable {
 
     private static final long serialVersionUID = -2413708907011382898L;

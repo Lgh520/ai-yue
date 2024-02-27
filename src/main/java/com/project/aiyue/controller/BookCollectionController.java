@@ -3,7 +3,7 @@ package com.project.aiyue.controller;
 import com.alibaba.fastjson2.JSON;
 import com.project.aiyue.dao.BookCollectionMapper;
 import com.project.aiyue.dao.po.BookCollection;
-import com.project.aiyue.responor.CommonRespon;
+import com.project.aiyue.bo.base.CommonRespon;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

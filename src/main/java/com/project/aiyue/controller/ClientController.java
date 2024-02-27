@@ -2,7 +2,7 @@ package com.project.aiyue.controller;
 
 import com.project.aiyue.dao.SysParamMapper;
 import com.project.aiyue.dao.po.SysParam;
-import com.project.aiyue.responor.CommonRespon;
+import com.project.aiyue.bo.base.CommonRespon;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

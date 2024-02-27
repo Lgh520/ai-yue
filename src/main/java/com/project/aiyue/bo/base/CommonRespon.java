@@ -1,4 +1,4 @@
-package com.project.aiyue.responor;
+package com.project.aiyue.bo.base;
 
 import com.project.aiyue.constant.ResponCodeConstant;
 import lombok.Builder;

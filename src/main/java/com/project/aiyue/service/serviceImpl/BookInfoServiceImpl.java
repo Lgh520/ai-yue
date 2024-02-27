@@ -1,6 +1,5 @@
 package com.project.aiyue.service.serviceImpl;
 
-import com.alibaba.fastjson2.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.project.aiyue.bo.SearchWrapper;
@@ -9,7 +8,7 @@ import com.project.aiyue.dao.*;
 import com.project.aiyue.bo.BookRentWrapper;
 import com.project.aiyue.dao.po.*;
 import com.project.aiyue.exception.CommonException;
-import com.project.aiyue.responor.BorrowReqBO;
+import com.project.aiyue.bo.BorrowReqBO;
 import com.project.aiyue.service.BookInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,8 @@ public class BookInfoServiceImpl implements BookInfoService {
     private UserInfoMapper userInfoMapper;
     @Autowired
     private BookRentMapper bookRentMapper;
-
+    @Autowired
+    private SysParamMapper sysParamMapper;
     @Override
     public PageInfo<BookInfo> getList(BookInfo bookInfo) {
         if (Objects.isNull(bookInfo)) {
@@ -61,6 +61,10 @@ public class BookInfoServiceImpl implements BookInfoService {
             throw new CommonException(-1, "图书ID不能为空");
         }
         BookInfo bookInfo = bookInfoMapper.selectByPrimaryKey(id);
+        String ageType = sysParamMapper.selectByParamCodeAndParamValue("AGE_TYPE", bookInfo.getAgeType());
+        String themeType = sysParamMapper.selectByParamCodeAndParamValue("THEME_TYPE", bookInfo.getThemeType());
+        bookInfo.setAgeType(ageType);
+        bookInfo.setThemeType(themeType);
         bookInfoMapper.updateViewCountById(id);
         if (bookInfo == null) {
             log.info("获取图书详情失败，图书ID也不存在，id={}", id);

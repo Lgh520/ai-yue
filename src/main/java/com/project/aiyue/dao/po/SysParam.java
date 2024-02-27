@@ -3,9 +3,11 @@ package com.project.aiyue.dao.po;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 @Data
+@ToString
 @ApiModel("字典表")
 public class SysParam implements Serializable {
     private static final long serialVersionUID = 7806093017207835998L;

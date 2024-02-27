@@ -3,10 +3,12 @@ package com.project.aiyue.dao.po;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
 @Data
+@ToString
 @ApiModel("用户收货地址")
 public class ConsigeAddress implements Serializable {
     @ApiModelProperty("主键")

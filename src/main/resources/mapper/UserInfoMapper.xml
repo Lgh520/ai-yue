@@ -105,11 +105,14 @@
       <if test="vipEndTimeStr != null" >
         VIP_END_TIME = #{vipEndTimeStr,jdbcType=VARCHAR},
       </if>
+      <if test="vipID != null" >
+        VIP_ID = #{vipID,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateTime != null" >
-        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      <if test="updateTimeStr != null" >
+        UPDATE_TIME = #{updateTimeStr,jdbcType=TIMESTAMP},
       </if>
     </set>
     where USER_ID = #{userId,jdbcType=VARCHAR}

@@ -56,7 +56,7 @@ public class WxPayUtil {
     public static final String mchSerialNo="761BEFBD7E442AF5B5E80A1776C8EE813EB04903";
 
     /**notify_url */
-    public static final String notify_url="http://aiyuekj.cn/aiyue/userInfo/wxNotify";
+    public static final String notify_url="https://www.aiyuekj.cn/aiyue/userInfo/wxNotify";
 
     private CloseableHttpClient httpClient;
 
@@ -112,7 +112,7 @@ public class WxPayUtil {
         String message=appid + "\n"
                 + timestamp + "\n"
                 + nonceStr + "\n"
-                + prepayId + "\n";
+                + "prepay_id="+prepayId + "\n";
 
         String sign = PayKit.createSign(message, privateKeyPath);
 

@@ -12,4 +12,6 @@ public interface SysParamMapper {
     List<SysParam> selectDict(SysParam record);
 
     int insertSelective(SysParam record);
+
+    String selectByParamCodeAndParamValue(String code,String value);
 }

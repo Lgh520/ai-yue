@@ -5,8 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.project.aiyue.bo.BookRentWrapper;
 import com.project.aiyue.bo.SearchWrapper;
 import com.project.aiyue.dao.po.BookInfo;
-import com.project.aiyue.responor.BorrowReqBO;
-import org.apache.ibatis.annotations.Param;
+import com.project.aiyue.bo.BorrowReqBO;
 
 import java.util.List;
 

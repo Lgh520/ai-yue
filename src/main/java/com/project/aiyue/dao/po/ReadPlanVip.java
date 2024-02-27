@@ -2,7 +2,11 @@ package com.project.aiyue.dao.po;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.ToString;
 
+@Data
+@ToString
 @ApiModel("vip卡信息")
 public class ReadPlanVip {
     @ApiModelProperty("VIPid")
@@ -22,55 +26,6 @@ public class ReadPlanVip {
 
     @ApiModelProperty("有效期：天数")
     private Integer periodOfValidity;
-
-    public Long getVipId() {
-        return vipId;
-    }
-
-    public void setVipId(Long vipId) {
-        this.vipId = vipId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
-    }
-
-    public String getDeposit() {
-        return deposit;
-    }
-
-    public void setDeposit(String deposit) {
-        this.deposit
-                = deposit == null ? null : deposit.trim();
-    }
-
-    public String getReadPlanMoney() {
-        return readPlanMoney;
-    }
-
-    public void setReadPlanMoney(String readPlanMoney) {
-        this.readPlanMoney = readPlanMoney == null ? null : readPlanMoney.trim();
-    }
-
-    public Integer getPerRentCount() {
-        return perRentCount;
-    }
-
-    public void setPerRentCount(Integer perRentCount) {
-        this.perRentCount = perRentCount;
-    }
-
-    public Integer getPeriodOfValidity() {
-        return periodOfValidity;
-    }
-
-    public void setPeriodOfValidity(Integer periodOfValidity) {
-        this.periodOfValidity = periodOfValidity;
-    }
 
     @Override
     public String toString() {

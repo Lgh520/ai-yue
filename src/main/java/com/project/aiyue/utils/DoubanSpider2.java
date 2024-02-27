@@ -1,29 +1,29 @@
 package com.project.aiyue.utils;
 
-//import org.apache.http.HttpResponse;
-//import org.apache.http.HttpStatus;
-//import org.apache.http.client.config.RequestConfig;
-//import org.apache.http.client.methods.HttpGet;
-//import org.apache.http.impl.client.CloseableHttpClient;
-//import org.apache.http.impl.client.HttpClients;
-//import org.jsoup.Jsoup;
-//import org.jsoup.nodes.Document;
-//import org.jsoup.nodes.Element;
-//import org.jsoup.select.Elements;
-//
-//import java.io.BufferedReader;
-//import java.io.InputStream;
-//import java.io.InputStreamReader;
-//import java.sql.Connection;
-//import java.sql.DriverManager;
-//import java.sql.SQLException;
-//import java.sql.Statement;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.apache.http.impl.client.CloseableHttpClient;
 
 //解析http
 public class DoubanSpider2 {
-    /*//     根据URL获得所有的html信息
+    //     根据URL获得所有的html信息
     public static String getHtmlByUrl(String url){
         String html = null;
         //创建httpClient对象
@@ -178,7 +178,8 @@ public class DoubanSpider2 {
     }
 
     public static void test1(){
-        String html = getHtmlByUrl("https://search.douban.com/book/subject_search?search_text=9787020025862");
+        String html = getHtmlByUrl("http://localhost:9200/#/status/online");
+        String html1 = getHtmlByUrl("https://search.douban.com/book/subject_search?search_text=9787020025862");
         if (html != null && !"".equals(html)) {
             Document doc = Jsoup.parse(html);
 
@@ -247,9 +248,9 @@ public class DoubanSpider2 {
         }
     }
     public static void main(String[] args) throws Exception {
-        test();
-//        test1();
+//        test();
+        test1();
 
 
-    }*/
+    }
 }

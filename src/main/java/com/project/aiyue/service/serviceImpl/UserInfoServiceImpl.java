@@ -2,13 +2,10 @@ package com.project.aiyue.service.serviceImpl;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.project.aiyue.bo.CreateUserBO;
 import com.project.aiyue.bo.PayReadPlanReqBO;
-import com.project.aiyue.constant.CommonConstant;
+import com.project.aiyue.bo.ResetPasswordBO;
 import com.project.aiyue.dao.OrderInfoMapper;
 import com.project.aiyue.dao.ReadPlanVipMapper;
 import com.project.aiyue.dao.TransInfoMapper;
@@ -18,7 +15,7 @@ import com.project.aiyue.dao.po.ReadPlanVip;
 import com.project.aiyue.dao.po.TransInfo;
 import com.project.aiyue.dao.po.UserInfo;
 import com.project.aiyue.exception.CommonException;
-import com.project.aiyue.responor.CommonRespon;
+import com.project.aiyue.bo.base.CommonRespon;
 import com.project.aiyue.service.UserInfoService;
 import com.project.aiyue.utils.SecurityUtil;
 import com.project.aiyue.utils.WxPayUtil;
@@ -31,16 +28,10 @@ import com.wechat.pay.java.service.payments.jsapi.model.PrepayRequest;
 import com.wechat.pay.java.service.payments.jsapi.model.PrepayResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpHeaders;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.util.EntityUtils;
+import org.omg.PortableInterceptor.USER_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
@@ -49,7 +40,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
-import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
 @Service
 @Slf4j
@@ -69,13 +59,8 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Autowired
     private ReadPlanVipMapper readPlanVipMapper;
 
-//    private RSAAutoCertificateConfig config;
-//
-//    @Autowired
-//    public void setConfig(){
-//        config = new RSAAutoCertificateConfig.Builder().merchantId(WxConfig.merchantId).privateKeyFromPath(WxConfig.privateKeyPath)
-//                .merchantSerialNumber(WxConfig.merchantSerialNumber).apiV3Key(WxConfig.apiV3key).build();
-//    }
+    @Autowired
+    private Config config;
 
     private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -93,6 +78,8 @@ public class UserInfoServiceImpl implements UserInfoService {
         userInfo.setPassword(securityPassword);
         //保存
         userInfoMapper.insert(userInfo);
+
+        log.info("注册用户入参:userId={},ReadPlanVip={},OpenId={}",userId,userInfo.getReadPlanVip(),userInfo.getOpenId());
 
         // 创建订单和流水进行支付
         return createOrder(userId, userInfo.getReadPlanVip(), userInfo.getOpenId());
@@ -122,17 +109,21 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public void wxNotify(String orderId,String status) {
+        log.info("回调orderid:{},status:{}",orderId,status);
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setOrderId(Long.parseLong(orderId));
         orderInfo.setOrderStatus("A01");
         if (!"SUCCESS".equals(status)){
             orderInfo.setOrderStatus("A02");
         }
+        log.info("回调更新订单信息:{}",orderInfo);
         orderInfoMapper.updateByPrimaryKeySelective(orderInfo);
         TransInfo transInfo = new TransInfo();
         transInfo.setOrderId(orderInfo.getOrderId());
         transInfo.setTransStatus(orderInfo.getOrderStatus());
-        transInfoMapper.updateByPrimaryKeySelective(transInfo);
+        transInfo.setUpdateTimeStr(SDF.format(new Date()));
+        log.info("回调更新流水信息:{}",orderInfo);
+        transInfoMapper.updateByStatus(transInfo);
 
 
         if ("SUCCESS".equals(status)){
@@ -140,9 +131,11 @@ public class UserInfoServiceImpl implements UserInfoService {
             OrderInfo originOrderInfo = orderInfoMapper.selectByPrimaryKey(orderInfo.getOrderId());
             UserInfo originUserInfo = userInfoMapper.selectByPrimaryKey(originOrderInfo.getUserId());
             ReadPlanVip readPlanVip = readPlanVipMapper.selectByPrimaryKey(originOrderInfo.getVipId());
+            log.info("查询计划vip:{}",readPlanVip);
             UserInfo userInfo = new UserInfo();
             userInfo.setUserId(originOrderInfo.getUserId());
-            userInfo.setUserType("0");
+            userInfo.setIsLock("0");
+            userInfo.setVipID(originOrderInfo.getVipId());
             Calendar instance = Calendar.getInstance();
             if (null == originUserInfo.getVipEndTime()){
                 instance.add(Calendar.DAY_OF_MONTH,readPlanVip.getPeriodOfValidity().intValue());
@@ -152,23 +145,27 @@ public class UserInfoServiceImpl implements UserInfoService {
                 instance.add(Calendar.DAY_OF_MONTH,readPlanVip.getPeriodOfValidity().intValue());
                 userInfo.setVipEndTimeStr(SDF.format(instance.getTime()));
             }
+            log.info("回调更新用户信息:{}",userInfo);
             userInfoMapper.updateByPrimaryKeySelective(userInfo);
         }
     }
 
     @Override
     public CommonRespon updateOrderAndUserInfo(String orderId, JSONObject data) {
+        log.info("微信订单查询结果：orderid:{},data:{}",orderId,data);
         String trade_state = data.getString("trade_state");
         if (trade_state.equals("SUCCESS")){
             OrderInfo info = new OrderInfo();
             info.setOrderId(Long.parseLong(orderId));
             info.setUpdateTimeStr(SDF.format(new Date()));
             info.setOrderStatus("A01");
+            log.info("微信订单查询-更新订单信息：{}",info);
             orderInfoMapper.updateByStatus(info);
             TransInfo transInfo = new TransInfo();
             transInfo.setOrderId(info.getOrderId());
             transInfo.setTransStatus("A01");
             transInfo.setUpdateTimeStr(info.getUpdateTimeStr());
+            log.info("微信订单查询-更新流水信息：{}",transInfo);
             transInfoMapper.updateByStatus(transInfo);
             OrderInfo orderInfo = orderInfoMapper.selectByPrimaryKey(info.getOrderId());
             UserInfo originUserInfo = userInfoMapper.selectByPrimaryKey(orderInfo.getUserId());
@@ -176,6 +173,7 @@ public class UserInfoServiceImpl implements UserInfoService {
             UserInfo userInfo = new UserInfo();
             userInfo.setUserId(orderInfo.getUserId());
             userInfo.setIsLock("0");
+            userInfo.setVipID(orderInfo.getVipId());
             Calendar instance = Calendar.getInstance();
             if (null == originUserInfo.getVipEndTime()){
                 instance.add(Calendar.DAY_OF_MONTH,readPlanVip.getPeriodOfValidity().intValue());
@@ -185,9 +183,34 @@ public class UserInfoServiceImpl implements UserInfoService {
                 instance.add(Calendar.DAY_OF_MONTH,readPlanVip.getPeriodOfValidity().intValue());
                 userInfo.setVipEndTimeStr(SDF.format(instance.getTime()));
             }
+            log.info("微信订单查询-更新用户信息：{}",userInfo);
             userInfoMapper.updateByPrimaryKeySelective(userInfo);
         }
         return CommonRespon.success(null);
+    }
+
+    @Override
+    public CommonRespon resetPassword(ResetPasswordBO userInfo) {
+        try {
+            String userId = userInfo.getUserId();
+            String password = userInfo.getPassword();
+            String s = SecurityUtil.enSecret(password, SecurityUtil.DEFAULT_KEY);
+            UserInfo info = userInfoMapper.login(userId, s);
+            if (info == null) {
+                log.info("用户账号或密码错误，请重新输入");
+                return CommonRespon.error(1, "用户账号或密码错误，请重新输入");
+            }
+            String newStr = SecurityUtil.enSecret(userInfo.getNewPassword(), SecurityUtil.DEFAULT_KEY);
+            UserInfo po = new UserInfo();
+            po.setUserId(userId);
+            po.setPassword(newStr);
+            po.setUpdateTimeStr(SDF.format(new Date()));
+            userInfoMapper.updateByPrimaryKeySelective(po);
+        } catch (CommonException e) {
+            e.printStackTrace();
+            return CommonRespon.error(1, "重置密码异常，请重试");
+        }
+        return CommonRespon.success("密码重置成功");
     }
 
     public String getOpenid(String code) {
@@ -258,6 +281,7 @@ public class UserInfoServiceImpl implements UserInfoService {
             orderInfo.setOrderMoney(readPlanVip.getReadPlanMoney());
             orderId = System.currentTimeMillis();
             orderInfo.setOrderId(orderId);
+            log.info("创建订单信息:{}",orderInfo);
             orderInfoMapper.insertNew(orderInfo);
             TransInfo transInfo = new TransInfo();
             transInfo.setOrderId(orderId);
@@ -268,16 +292,10 @@ public class UserInfoServiceImpl implements UserInfoService {
             transInfo.setTransId(transId);
             transInfo.setCreateTimeStr(nowStr);
             transInfo.setTransType("A");
+            log.info("创建流水信息:{}",transInfo);
             transInfoMapper.insertNew(transInfo);
             Payer payer = new Payer();
             payer.setOpenid(getOpenid(openId));
-            Config config =
-                    new RSAAutoCertificateConfig.Builder()
-                            .merchantId("1662535112")
-                            .privateKeyFromPath("D:\\ideaproject\\ai-yue\\src\\main\\resources\\apiclient_key.pem")
-                            .merchantSerialNumber("761BEFBD7E442AF5B5E80A1776C8EE813EB04903")
-                            .apiV3Key("dedad62418608e4f65t985cj733b02ba")
-                            .build();
 
             JsapiService service = new JsapiService.Builder().config(config).build();
             PrepayRequest request = new PrepayRequest();
@@ -291,6 +309,7 @@ public class UserInfoServiceImpl implements UserInfoService {
             request.setNotifyUrl(WxPayUtil.notify_url);
             request.setPayer(payer);
             request.setOutTradeNo(String.valueOf(orderId));
+            log.info("微信小程序下单入参:{}",JSON.toJSONString(request));
             // 调用下单方法，得到应答
             PrepayResponse response = service.prepay(request);
             String prepayId = response.getPrepayId();
@@ -311,6 +330,7 @@ public class UserInfoServiceImpl implements UserInfoService {
                 log.info("下单成功，下单出参:{}", JSON.toJSONString(bo));
                 return CommonRespon.success(bo);
             }else{
+                log.info("调用微信下单失败，请重新下单");
                 orderInfoMapper.deleteByPrimaryKey(orderId);
                 transInfoMapper.deleteByPrimaryKey(transId);
                 return CommonRespon.error(1, "下单失败请重新下单!");

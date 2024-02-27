@@ -3,10 +3,12 @@ package com.project.aiyue.dao.po;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
 @Data
+@ToString
 @ApiModel("流水表")
 public class TransInfo implements Serializable {
     private static final long serialVersionUID = -6925746940145729324L;

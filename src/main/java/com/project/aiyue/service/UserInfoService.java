@@ -4,8 +4,9 @@ package com.project.aiyue.service;
 import com.alibaba.fastjson2.JSONObject;
 import com.project.aiyue.bo.CreateUserBO;
 import com.project.aiyue.bo.PayReadPlanReqBO;
+import com.project.aiyue.bo.ResetPasswordBO;
 import com.project.aiyue.dao.po.UserInfo;
-import com.project.aiyue.responor.CommonRespon;
+import com.project.aiyue.bo.base.CommonRespon;
 
 public interface UserInfoService {
     CommonRespon<CreateUserBO> register(UserInfo userInfo);
@@ -13,4 +14,6 @@ public interface UserInfoService {
     CommonRespon<CreateUserBO> payReadPlan(PayReadPlanReqBO userInfo);
     void wxNotify(String orderId,String status);
     CommonRespon updateOrderAndUserInfo(String orderId, JSONObject trade_state);
+
+    CommonRespon resetPassword(ResetPasswordBO userInfo);
 }

@@ -1,6 +1,7 @@
 package com.project.aiyue.bo;
 
 import lombok.Data;
+import lombok.ToString;
 
 /**
  *  *
@@ -8,6 +9,7 @@ import lombok.Data;
  *  * @date 2023/11/22 20:31
  *  
  */
+@ToString
 public class ReqBO {
     private int pageNum;
     private int pageSize;

@@ -9,9 +9,8 @@ import com.project.aiyue.bo.BookRentWrapper;
 import com.project.aiyue.dao.BookRentMapper;
 import com.project.aiyue.dao.po.BookInfo;
 import com.project.aiyue.dao.po.BookRent;
-import com.project.aiyue.dao.po.DeliveryRecord;
-import com.project.aiyue.responor.BorrowReqBO;
-import com.project.aiyue.responor.CommonRespon;
+import com.project.aiyue.bo.BorrowReqBO;
+import com.project.aiyue.bo.base.CommonRespon;
 import com.project.aiyue.service.BookInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -53,8 +52,8 @@ public class BookController {
                             o.setTitle(o.getTitle().substring(0, 6) + "...");
                         }
                     });
-                    return CommonRespon.success(result);
                 }
+                return CommonRespon.success(result);
             }
         } catch (Exception e) {
             e.printStackTrace();

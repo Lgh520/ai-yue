@@ -3,11 +3,13 @@ package com.project.aiyue.dao.po;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
 
 @Data
+@ToString
 @ApiModel("图书借阅")
 public class BookRent implements Serializable {
     private static final long serialVersionUID = 480281907463797619L;

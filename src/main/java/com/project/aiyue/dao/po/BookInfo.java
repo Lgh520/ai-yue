@@ -4,11 +4,13 @@ import com.project.aiyue.bo.Page;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
 
 @Data
+@ToString
 @ApiModel("图书信息")
 public class BookInfo extends Page implements Serializable {
     private static final long serialVersionUID = -8019949730918822843L;
